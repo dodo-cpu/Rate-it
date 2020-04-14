@@ -22,7 +22,7 @@ namespace Rateit
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();//test12345
         }
     }
 }
