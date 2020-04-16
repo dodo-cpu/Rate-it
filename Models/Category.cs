@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
@@ -37,7 +38,25 @@ namespace Rateit.Models
         /// </summary>
         private void LoadData()
         {
-            //TODO: DB Get
+            //@todo cateegory name correction in db
+            MySqlConnection connection = new MySqlConnection("SERVER=127.0.0.1;" +
+                    "DATABASE=rateit;" +
+                    "UID=root;PASSWORD=;");
+            connection.Open();
+
+            string sql = "SELECT * FROM category" +
+                         "WHERE idcateegory ='" + this.Id + "'";
+
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            while(reader.Read())
+            {
+                this.Name = reader.GetValue(1).ToString();
+                this.ParentId = Convert.ToInt32(reader.GetValue(2));
+            }
+
+            connection.Close();
         }
 
         #endregion

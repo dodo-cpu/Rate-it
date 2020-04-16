@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
@@ -53,7 +54,24 @@ namespace Rateit.Models
 
         private void LoadData()
         {
-            //TODO: DB Get
+            //@todo change collums names
+            MySqlConnection connection = new MySqlConnection("SERVER=127.0.0.1;" +
+                    "DATABASE=rateit;" +
+                    "UID=root;PASSWORD=;");
+            connection.Open();
+
+            string sql = "SELECT * FROM assesmentcriteria" +
+                         "WHERE idassesmentCriteria ='" + this.Id + "'";
+
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                this.Name = reader.GetValue(2).ToString();
+            }
+
+            connection.Close();
         }
 
         #endregion
