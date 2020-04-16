@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
@@ -89,7 +90,25 @@ namespace Rateit.Models
         /// </summary>
         private void LoadData()
         {
-            //TODO: DB Get
+            //@todo set List<Criterion>
+            MySqlConnection connection = new MySqlConnection("SERVER=127.0.0.1;" +
+                    "DATABASE=rateit;" +
+                    "UID=root;PASSWORD=;");
+            connection.Open();
+
+            string sql = "SELECT * FROM topic" +
+                         "WHERE idtopic ='" + this.Id + "'";
+
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                this.CategoryId = Convert.ToInt32(reader.GetValue(1));
+                this.Name = reader.GetValue(2).ToString();
+            }
+
+            connection.Close();
         }
 
         #endregion
