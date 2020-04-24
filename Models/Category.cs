@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
@@ -39,24 +38,23 @@ namespace Rateit.Models
         private void LoadData()
         {
             //@todo cateegory name correction in db
-            MySqlConnection connection = new MySqlConnection("SERVER=127.0.0.1;" +
-                    "DATABASE=rateit;" +
-                    "UID=root;PASSWORD=;");
-            connection.Open();
-
-            string sql = "SELECT * FROM category" +
-                         "WHERE idcateegory ='" + this.Id + "'";
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-
-            while(reader.Read())
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
             {
-                this.Name = reader.GetValue(1).ToString();
-                this.ParentId = Convert.ToInt32(reader.GetValue(2));
-            }
+                string sql = $"SELECT * FROM category WHERE idcateegory = {this.Id};";
 
-            connection.Close();
+                connection.Command.CommandText = sql;
+                connection.Command.ExecuteReader();
+
+                while (connection.Reader.Read())
+                {
+                    //TODO: Debug, GetValue ist evtl 0 indexiert
+                    this.Name = connection.Reader.GetValue(1).ToString();
+                    this.ParentId = Convert.ToInt32(connection.Reader.GetValue(2));
+                }
+
+                connection.Close();
+            }
         }
 
         #endregion
