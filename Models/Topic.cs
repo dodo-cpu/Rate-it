@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
@@ -18,18 +17,15 @@ namespace Rateit.Models
 
         private List<Criterion> Criteria { get; set; }
 
-        public int UserId { get; private set; }
-
         public int CategoryId { get; private set; }
 
         #endregion
 
         #region public methods
 
-        public Topic(int id, int userId)
+        public Topic(int id)
         {
             this.Id = id;
-            this.UserId = userId;
 
             LoadData();
         }
@@ -78,7 +74,7 @@ namespace Rateit.Models
               this.Criteria[i].Rate(userRatings[i]);
             }
 
-            //TODO return
+            //TODO: return
         }
 
         #endregion
@@ -90,25 +86,24 @@ namespace Rateit.Models
         /// </summary>
         private void LoadData()
         {
-            //@todo set List<Criterion>
-            MySqlConnection connection = new MySqlConnection("SERVER=127.0.0.1;" +
-                    "DATABASE=rateit;" +
-                    "UID=root;PASSWORD=;");
-            connection.Open();
-
-            string sql = "SELECT * FROM topic" +
-                         "WHERE idtopic ='" + this.Id + "'";
-
-            MySqlCommand command = new MySqlCommand(sql, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            ////@todo set List<Criterion>
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
             {
-                this.CategoryId = Convert.ToInt32(reader.GetValue(1));
-                this.Name = reader.GetValue(2).ToString();
-            }
+                string sql = $"SELECT * FROM topic WHERE idtopic = {this.Id};";
 
-            connection.Close();
+                connection.Command.CommandText = sql;
+                connection.Command.ExecuteReader();
+
+                while (connection.Reader.Read())
+                {
+                    //TODO: Debug, GetValue ist evtl 0 indexiert
+                    this.CategoryId = Convert.ToInt32(connection.Reader.GetValue(1));
+                    this.Name = connection.Reader.GetValue(2).ToString();
+                }
+
+                connection.Close();
+            }
         }
 
         #endregion
