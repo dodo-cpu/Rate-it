@@ -16,14 +16,27 @@ namespace Rateit.Models
 
         #endregion
 
+        #region fields
+
+        private SqlConnection _connection;
+
+        public SqlCommand _command;
+
+        #endregion
+
+
         #region properties
 
-        public SqlConnection Connection { get; set; }
+        public SqlConnection Connection
+        {
+            get { return _connection; }
+            set { _connection = value; }
+        }
 
         public SqlCommand Command 
         {
-            get { return Command; } 
-            set { Command = value; Command.Connection = Connection; } 
+            get { return _command; } 
+            set { _command = value; Command.Connection = _connection; } 
         }
 
         public SqlDataAdapter Adapter { get; set; }
