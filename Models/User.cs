@@ -3,17 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Rateit.Models
 {
-    class User
+    public class User : INotifyPropertyChanged
     {
+
+        #region fields
+
+        private int _Id;
+
+        private string _Name;
+
+        private string _Password;
+
+        #endregion
 
         #region Properties
 
-        public int Id { get; private set; }
+        public int Id 
+        {
+            get { return _Id; }
+            set { _Id = value; RaisePropertyChanged("Id"); } 
+        }
 
-        public string Name { get; private set; }
+        public string Name 
+        {
+            get { return _Name; } 
+            set { _Name = value; RaisePropertyChanged("Name"); }
+        }
+
+        public string Password
+        {
+            get { return _Password; }
+            set { _Password = value; RaisePropertyChanged("Password"); }
+        }
 
         #endregion
 
@@ -137,5 +162,18 @@ namespace Rateit.Models
 
         #endregion
 
+        #region events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
+
+        #endregion
     }
 }

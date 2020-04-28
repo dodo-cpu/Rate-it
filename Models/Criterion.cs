@@ -44,6 +44,7 @@ namespace Rateit.Models
         public bool Rate(double rating)
         {
             //TODO: DB Set
+            return true;
         }
 
 

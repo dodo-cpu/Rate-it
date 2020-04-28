@@ -75,6 +75,7 @@ namespace Rateit.Models
             }
 
             //TODO: return
+            return true;
         }
 
         #endregion
