@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Models\SecurityHelper.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
