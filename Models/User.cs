@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +49,11 @@ namespace Rateit.Models
             this.Id = id;
 
             LoadData();
+        }
+
+        public User()
+        {
+            
         }
 
         #region public static methods
