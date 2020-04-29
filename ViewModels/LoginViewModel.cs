@@ -81,6 +81,7 @@ namespace Rateit.ViewModels
         private void OnLogin()
         {
             this.User = Models.User.Login(this.Name, this.Password);
+            OnLoggedIn();
         }
 
         private bool CanLogin()
@@ -92,13 +93,16 @@ namespace Rateit.ViewModels
         private void OnRegister()
         {
             this.User = Models.User.Register(this.Name, this.Password);
+            OnLoggedIn();
         }
 
         #endregion
 
-        #region events
+        #region events and delegates
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event LoggedInEventHandler LoggedIn;
 
         private void RaisePropertyChanged(string property)
         {
@@ -106,6 +110,13 @@ namespace Rateit.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
+        }
+
+        public delegate void LoggedInEventHandler(object source, EventArgs args);
+
+        protected virtual void OnLoggedIn()
+        {
+            LoggedIn?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
