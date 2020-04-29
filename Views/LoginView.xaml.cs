@@ -11,21 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Rateit.ViewModels;
 
 namespace Rateit.Views
 {
     /// <summary>
-    /// Interaktionslogik für LoginView.xaml
+    /// Interaktionslogik für MainView.xaml
     /// </summary>
     public partial class LoginView : Window
     {
         public LoginView()
         {
             InitializeComponent();
-
-            this.DataContext = new LoginViewModel();
+            this.DataContext = new ViewModels.LoginViewModel();
         }
-
     }
 }

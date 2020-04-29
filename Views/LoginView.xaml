@@ -4,28 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rateit"
-        xmlns:vm="clr-namespace:Rateit.ViewModels"
+        xmlns:vm="clr-namespace:Rateit"
         mc:Ignorable="d"
-        Title="LoginView" Height="450" Width="800">
+        Title="MainView" Height="450" Width="800">
 
-    <Window.Resources>
-        <vm:LoginViewModel x:Key="LoginViewModel"/>
-    </Window.Resources>
-    <Grid DataContext="{Binding Source={StaticResource LoginViewModel}}">
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Name="lblName" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,10" Content="Username:"></Label>
-        <Label Grid.Row="1" Name="lblPassword" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,10" Content="Password:"></Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Name="txtName" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,10" Width="300" Text="{Binding Name, Mode=OneWayToSource}"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="1" Name="txtPassword" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,10" Width="300"   Text="{Binding Password, Mode=OneWayToSource}"></TextBox>
-        <Button Grid.Row="2" Grid.Column="0" Name="btnLogin" Height="35" HorizontalAlignment="Right" Width="200" Margin="10,10,10,10" Content="Login" Command="{Binding LoginCommand}"></Button>
-        <Button Grid.Row="2" Grid.Column="1" Name="btnRegister" Height="35" HorizontalAlignment="Left" Width="200" Margin="10,10,10,10" Content="Register" Command="{Binding RegisterCommand}"></Button>
+
+    <Window.DataContext>
+        <vm:
+    </Window.DataContext>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FFE0DCEA"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel HorizontalAlignment="Left" Height="409" VerticalAlignment="Top" Width="408" Margin="374,0,0,0">
+            <Image Height="420"  Source="/Images/93695790_2503445139986069_776948275197509632_n.jpg" RenderTransformOrigin="0.5,0.5" Margin="10,0,0,0"/>
+        </StackPanel>
+        <Grid HorizontalAlignment="Left" Height="128" Margin="10,120,0,0" VerticalAlignment="Top" Width="359">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="E-Mail:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.215,1.03" Width="359" Height="34" FontSize="14"/>
+            <Label Content="Passwort:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.215,1.03" Width="359" Height="34" Margin="0,64,0,0" FontSize="14"/>
+            <PasswordBox HorizontalAlignment="Left" Margin="0,98,0,0" VerticalAlignment="Top" Width="359" Height="30"/>
+        </Grid>
+        <TextBox HorizontalAlignment="Left" Height="30" Margin="10,154,0,0" TextWrapping="Wrap" Text="rateit@web.de" VerticalAlignment="Top" Width="359"  Foreground="#FF3A008D"/>
+        <Grid HorizontalAlignment="Left" Height="37" Margin="15,261,0,0" VerticalAlignment="Top" Width="359">
+            <Label Content="Passwort vergessen" HorizontalAlignment="Left" Margin="223,10,0,0" VerticalAlignment="Top" Height="27" Width="117"/>
+        </Grid>
+        <CheckBox Content="Zugangsdaten vermerken" HorizontalAlignment="Left" Margin="15,277,0,0" VerticalAlignment="Top" Height="20" Width="158"/>
+        <Grid HorizontalAlignment="Left" Height="73" Margin="10,324,0,0" VerticalAlignment="Top" Width="359">
+            <Button Name="button1" Content="Log in" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="127" Height="53" Background="#FF3A008D" Foreground="White"/>
+            <Button Name="button2" Content="Sign up" HorizontalAlignment="Left" Margin="149,10,0,0" VerticalAlignment="Top" Width="127" Height="53" Background="#FFCBBEEC"/>
+        </Grid>
+        <Label Content="WELCOME!" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="354" FontSize="48" FontFamily="Mistral" Background="#FFE0DCEA" Foreground="#FF3A008D"/>
+
     </Grid>
 </Window>
