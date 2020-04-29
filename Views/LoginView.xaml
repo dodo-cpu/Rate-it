@@ -28,9 +28,9 @@
             </Grid.ColumnDefinitions>
             <Label Content="E-Mail:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.215,1.03" Width="359" Height="34" FontSize="14"/>
             <Label Content="Passwort:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.215,1.03" Width="359" Height="34" Margin="0,64,0,0" FontSize="14"/>
-            <TextBox HorizontalAlignment="Left" Margin="0,98,0,0" VerticalAlignment="Top" Width="359" Height="30" Text="{Binding Password}"/>
+            <TextBox HorizontalAlignment="Left" Margin="0,98,0,0" VerticalAlignment="Top" Width="359" Height="30" Text="{Binding Password, Mode=OneWayToSource}"/>
         </Grid>
-        <TextBox HorizontalAlignment="Left" Height="30" Margin="10,154,0,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="359"  Foreground="#FF3A008D"/>
+        <TextBox HorizontalAlignment="Left" Height="30" Margin="10,154,0,0" TextWrapping="Wrap" Text="{Binding Name, Mode=OneWayToSource}" VerticalAlignment="Top" Width="359"  Foreground="#FF3A008D"/>
         <Grid HorizontalAlignment="Left" Height="37" Margin="15,261,0,0" VerticalAlignment="Top" Width="359">
             <Label Content="Passwort vergessen" HorizontalAlignment="Left" Margin="223,10,0,0" VerticalAlignment="Top" Height="27" Width="117"/>
         </Grid>

@@ -29,19 +29,19 @@ namespace Rateit.ViewModels
 
         public string Name
         {
-            get { return _name; }
+            private get { return _name; }
             set { _name = value; }// RaisePropertyChanged("Name"); }
         }
         public string Password
         {
-            get { return _password; }
+            private get { return _password; }
             set { _password = value; }// RaisePropertyChanged("Password"); }
         }
 
         public Models.User User
         {
             get { return _user; }
-            set { _user = value; }//RaisePropertyChanged("User"); }
+            private set { _user = value; }//RaisePropertyChanged("User"); }
         }
 
         public ICommand LoginCommand
@@ -104,15 +104,12 @@ namespace Rateit.ViewModels
 
         public event LoggedInEventHandler LoggedIn;
 
+        public delegate void LoggedInEventHandler(object source, EventArgs args);
+
         private void RaisePropertyChanged(string property)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
-
-        public delegate void LoggedInEventHandler(object source, EventArgs args);
 
         protected virtual void OnLoggedIn()
         {
