@@ -18,6 +18,8 @@ namespace Rateit.Models
 
         private string _Password;
 
+        private int _adminflag;
+
         #endregion
 
         #region Properties
@@ -38,6 +40,12 @@ namespace Rateit.Models
         {
             get { return _Password; }
             set { _Password = value; RaisePropertyChanged("Password"); }
+        }
+
+        public int adminflag
+        {
+            get { return _adminflag; }
+            set { _adminflag = value; RaisePropertyChanged("adminflag"); }
         }
 
         #endregion
@@ -132,16 +140,21 @@ namespace Rateit.Models
                 if (connection.Open())
                 {
                     //Get the user with specified name and password
-                    string sql = $"SELECT * FROM user WHERE username = {username} AND password = {SecurityHelper.GetStringSha256Hash(password)};";
+                    string sql = $"SELECT * FROM user WHERE username = '{username}' AND password = '{SecurityHelper.GetStringSha256Hash(password)}';";
 
-                    connection.Command.CommandText = sql;
-                    connection.Command.ExecuteReader();
-
+                    connection.getResult(sql);
+                    //connection.Command.CommandText = sql;
+                    //connection.Command.ExecuteReader();
+                    int userid = -1;
                     while (connection.Reader.Read())
                     {
                         //TODO: Debug, could cause error because index out of range if user doesnt exist 
-                        user = new User(connection.Reader.GetInt32(0));
+                         userid = Convert.ToInt32(connection.Reader.GetValue(0));
+                        //user = new User(connection.Reader.GetInt32(0));
                     }
+                    user = new User(userid);
+             
+
                 }
 
             }
@@ -158,6 +171,24 @@ namespace Rateit.Models
         private void LoadData()
         {
             //TODO: DB Get
+
+            DBConnector connection = new DBConnector();
+
+            if (connection.Open())
+            {
+                //Get the user with specified name and password
+                string sql = $"SELECT * FROM user WHERE iduser ={this._Id}";
+
+                connection.getResult(sql);
+                while (connection.Reader.Read())
+                {
+
+                    this.Name = connection.Reader.GetValue(1).ToString();
+                    //user = new User(connection.Reader.GetInt32(0));
+                    this.Id = Convert.ToInt32(connection.Reader.GetValue(0));
+
+                }
+            }
         }
 
         #endregion
