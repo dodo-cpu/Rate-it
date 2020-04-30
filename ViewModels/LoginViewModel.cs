@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace Rateit.ViewModels
 {
@@ -12,12 +13,6 @@ namespace Rateit.ViewModels
     {
 
         #region fields
-
-        private string _name;
-
-        private string _password;
-
-        private Models.User _user;
 
         public ICommand _loginCommand;
 
@@ -27,22 +22,9 @@ namespace Rateit.ViewModels
 
         #region properties
 
-        public string Name
-        {
-            private get { return _name; }
-            set { _name = value; }// RaisePropertyChanged("Name"); }
-        }
-        public string Password
-        {
-            private get { return _password; }
-            set { _password = value; }// RaisePropertyChanged("Password"); }
-        }
+        public string Name { private get; set; }
 
-        public Models.User User
-        {
-            get { return _user; }
-            private set { _user = value; }//RaisePropertyChanged("User"); }
-        }
+        public Models.User User { get; private set; }
 
         public ICommand LoginCommand
         {
@@ -50,7 +32,7 @@ namespace Rateit.ViewModels
             {
                 if (_loginCommand == null)
                 {
-                    _loginCommand = new Commands.RelayCommand(c => OnLogin(), c => CanLogin(),false);
+                    _loginCommand = new Commands.RelayCommand(c => OnLogin(this.Name, c), c => CanLogin(),false);
                 }
                 return _loginCommand;
             }
@@ -62,7 +44,7 @@ namespace Rateit.ViewModels
             {
                 if (_registerCommand == null)
                 {
-                    _registerCommand = new Commands.RelayCommand(c => OnRegister(), c => CanLogin(), false);
+                    _registerCommand = new Commands.RelayCommand(c => OnRegister(this.Name, c), c => CanLogin(), false);
                 }
                 return _registerCommand;
             }
@@ -70,18 +52,20 @@ namespace Rateit.ViewModels
 
         #endregion
 
-        #region public methods
-
-
-
-        #endregion
-
         #region private methods
 
-        private void OnLogin()
+        private void OnLogin(string name, object password)
         {
-            this.User = Models.User.Login(this.Name, this.Password);
-            OnLoggedIn();
+            PasswordBox pw = password as PasswordBox;
+            this.User = Models.User.Login(name, pw.Password);
+            if (this.User != null)
+            {
+                OnLoggedIn();
+            }
+            else
+            {
+                //TODO: Signal to the user that input was incorrect
+            }
         }
 
         private bool CanLogin()
@@ -90,10 +74,18 @@ namespace Rateit.ViewModels
             return true;
         }
 
-        private void OnRegister()
+        private void OnRegister(string name, object password)
         {
-            this.User = Models.User.Register(this.Name, this.Password);
-            OnLoggedIn();
+            PasswordBox pw = password as PasswordBox;
+            this.User = Models.User.Register(name, pw.Password);
+            if (this.User != null)
+            {
+                OnLoggedIn();
+            }
+            else
+            {
+                //TODO: Signal to the user that input was incorrect
+            }
         }
 
         #endregion
