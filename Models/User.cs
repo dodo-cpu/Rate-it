@@ -16,8 +16,6 @@ namespace Rateit.Models
 
         private string _Name;
 
-        private string _Password;
-
         private int _adminflag;
 
         #endregion
@@ -34,12 +32,6 @@ namespace Rateit.Models
         {
             get { return _Name; } 
             set { _Name = value; RaisePropertyChanged("Name"); }
-        }
-
-        public string Password
-        {
-            get { return _Password; }
-            set { _Password = value; RaisePropertyChanged("Password"); }
         }
 
         public int adminflag
@@ -79,12 +71,10 @@ namespace Rateit.Models
                 if (connection.Open())
                 {
                     bool usernameTaken = false;
-                    string sql;
                     //check if username is already taken
-                    sql = $"SELECT COUNT(*) FROM user WHERE username = {username};";
+                    string sql = $"SELECT COUNT(*) FROM user WHERE username = '{username}';";
 
-                    connection.Command.CommandText = sql;
-                    connection.Command.ExecuteScalar();
+                    connection.getResult(sql);
 
                     while (connection.Reader.Read())
                     {
@@ -98,16 +88,14 @@ namespace Rateit.Models
                     if (!usernameTaken)
                     {
                         //Create new user in the Database
-                        sql = $"INSERT INTO user (username, password) VALUES ({username}, {SecurityHelper.GetStringSha256Hash(password)});";
+                        sql = $"INSERT INTO user (username, password) VALUES ('{username}', '{SecurityHelper.GetStringSha256Hash(password)}');";
 
-                        connection.Command.CommandText = sql;
-                        connection.Command.ExecuteNonQuery();
+                        connection.getResult(sql);
 
                         //Get the new user from the Database
-                        sql = $"SELECT iduser FROM user WHERE username = {username} AND password = {SecurityHelper.GetStringSha256Hash(password)};";
+                        sql = $"SELECT iduser FROM user WHERE username = '{username}' AND password = '{SecurityHelper.GetStringSha256Hash(password)}';";
 
-                        connection.Command.CommandText = sql;
-                        connection.Command.ExecuteReader();
+                        connection.getResult(sql);
 
                         while (connection.Reader.Read())
                         {
@@ -143,20 +131,15 @@ namespace Rateit.Models
                     string sql = $"SELECT * FROM user WHERE username = '{username}' AND password = '{SecurityHelper.GetStringSha256Hash(password)}';";
 
                     connection.getResult(sql);
-                    //connection.Command.CommandText = sql;
-                    //connection.Command.ExecuteReader();
-                    int userid = -1;
+
+                    //If no matching user was found, user stays null
                     while (connection.Reader.Read())
                     {
-                        //TODO: Debug, could cause error because index out of range if user doesnt exist 
-                         userid = Convert.ToInt32(connection.Reader.GetValue(0));
-                        //user = new User(connection.Reader.GetInt32(0));
+                        user = new User(connection.Reader.GetInt32(0));
                     }
-                    user = new User(userid);
-             
 
+                    connection.Close();
                 }
-
             }
 
             return user;
