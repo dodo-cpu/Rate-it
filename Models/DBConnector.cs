@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
@@ -18,30 +19,36 @@ namespace Rateit.Models
 
         #region fields
 
-        private SqlConnection _connection;
+        //private SqlConnection _connection;
+        private MySqlConnection _connection;
 
-        public SqlCommand _command;
+        //public SqlCommand _command;
+
+        public MySqlCommand _command;
 
         #endregion
 
 
         #region properties
 
-        public SqlConnection Connection
+        public MySqlConnection Connection
         {
             get { return _connection; }
             set { _connection = value; }
         }
 
-        public SqlCommand Command 
+        public MySqlCommand Command
         {
-            get { return _command; } 
-            set { _command = value; Command.Connection = _connection; } 
+            get { return _command; }
+            set { _command = value; Command.Connection = _connection; }
         }
 
-        public SqlDataAdapter Adapter { get; set; }
+        //public SqlDataAdapter Adapter { get; set; }
 
-        public SqlDataReader Reader { get; set; }
+        public MySqlDataAdapter Adapter {get;set;}
+
+        //public SqlDataReader Reader { get; set; }
+        public MySqlDataReader Reader { get; set; }
 
         public bool Connected { get; set; }
 
@@ -56,8 +63,9 @@ namespace Rateit.Models
         {
             //TODO: parse text, if not working use default
             //this.Connection = new SqlConnection(ParseCSVConnectionString());
-            this.Connection = new SqlConnection(defaultConnectionString);
-            this.Command = new SqlCommand();
+            //this.Connection = new SqlConnection(defaultConnectionString);
+            this.Connection = new MySqlConnection(defaultConnectionString);
+            //this.Command = new SqlCommand();
         }
 
         /// <summary>
@@ -66,8 +74,9 @@ namespace Rateit.Models
         /// <param name="connectionString"></param>
         public DBConnector(string connectionString)
         {
-            this.Connection = new SqlConnection(connectionString);
-            this.Command = new SqlCommand();
+            //this.Connection = new SqlConnection(connectionString);
+            this.Connection = new MySqlConnection(connectionString);
+            //this.Command = new SqlCommand();
         }
 
         /// <summary>
@@ -86,8 +95,8 @@ namespace Rateit.Models
             {
                 this.Connected = false;
             }
-
-            return this.Connected;
+            return true;
+           //@todo check return this.Connected;
         }
 
         /// <summary>
@@ -98,7 +107,7 @@ namespace Rateit.Models
         {
             this.Connection.Close();
 
-            if (this.Connection.State == System.Data.ConnectionState.Open)
+            if (this.Connection.State != System.Data.ConnectionState.Open)
             {
                 this.Connected = true;
             }
@@ -106,10 +115,17 @@ namespace Rateit.Models
             {
                 this.Connected = false;
             }
-
-            return !this.Connected;
+            return true;
+            //@todo check return !this.Connected;
         }
 
+        public MySqlDataReader getResult(string sql)
+        {
+          
+            MySqlCommand myCommand = new MySqlCommand(sql, this.Connection);
+
+            return this.Reader = myCommand.ExecuteReader();
+        }
         #region public static methods
 
         /// <summary>
@@ -117,7 +133,7 @@ namespace Rateit.Models
         /// </summary>
         /// <param name="categoryId"></param>
         /// <returns></returns>
-        public static List<Topic> GetTopicsByCategory(int categoryId)
+        /*public static List<Topic> GetTopicsByCategory(int categoryId)
         {
             List<Topic> topics = new List<Topic>();
 
@@ -172,7 +188,7 @@ namespace Rateit.Models
             }
 
             return categories;
-        }
+        }*/
 
 
         #endregion
@@ -195,6 +211,8 @@ namespace Rateit.Models
         }
 
         #endregion
+
+  
 
     }
 }
