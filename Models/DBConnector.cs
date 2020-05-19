@@ -18,11 +18,8 @@ namespace Rateit.Models
         #endregion
 
         #region fields
-
-        //private SqlConnection _connection;
+        
         private MySqlConnection _connection;
-
-        //public SqlCommand _command;
 
         public MySqlCommand _command;
 
@@ -43,11 +40,8 @@ namespace Rateit.Models
             set { _command = value; Command.Connection = _connection; }
         }
 
-        //public SqlDataAdapter Adapter { get; set; }
-
         public MySqlDataAdapter Adapter {get;set;}
 
-        //public SqlDataReader Reader { get; set; }
         public MySqlDataReader Reader { get; set; }
 
         public bool Connected { get; set; }
@@ -61,11 +55,8 @@ namespace Rateit.Models
         /// </summary>
         public DBConnector()
         {
-            //TODO: parse text, if not working use default
-            //this.Connection = new SqlConnection(ParseCSVConnectionString());
-            //this.Connection = new SqlConnection(defaultConnectionString);
+
             this.Connection = new MySqlConnection(defaultConnectionString);
-            //this.Command = new SqlCommand();
         }
 
         /// <summary>
@@ -74,9 +65,7 @@ namespace Rateit.Models
         /// <param name="connectionString"></param>
         public DBConnector(string connectionString)
         {
-            //this.Connection = new SqlConnection(connectionString);
             this.Connection = new MySqlConnection(connectionString);
-            //this.Command = new SqlCommand();
         }
 
         /// <summary>
@@ -89,14 +78,12 @@ namespace Rateit.Models
 
             if (this.Connection.State == System.Data.ConnectionState.Open)
             {
-                this.Connected = true;
+                return this.Connected = true;
             }
             else
             {
-                this.Connected = false;
+                return this.Connected = false;
             }
-            return true;
-           //@todo check return this.Connected;
         }
 
         /// <summary>
@@ -107,16 +94,14 @@ namespace Rateit.Models
         {
             this.Connection.Close();
 
-            if (this.Connection.State != System.Data.ConnectionState.Open)
+            if (this.Connection.State == System.Data.ConnectionState.Open)
             {
-                this.Connected = true;
+                return this.Connected = true;
             }
             else
             {
-                this.Connected = false;
+                return this.Connected = false;
             }
-            return true;
-            //@todo check return !this.Connected;
         }
 
         public MySqlDataReader getResult(string sql)
@@ -128,6 +113,7 @@ namespace Rateit.Models
         }
         #region public static methods
 
+        //@todo move to fitting classes
         /// <summary>
         /// Returns all Topics that are of the given category
         /// </summary>
@@ -211,8 +197,5 @@ namespace Rateit.Models
         }
 
         #endregion
-
-  
-
     }
 }

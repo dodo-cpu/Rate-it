@@ -136,7 +136,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="migration\Datastruktur_19_05_2020_09_06_45_verbessert.sql" />
     <Content Include="migration\Datastruktur_29_04_2020_10_06_45.sql" />
+    <Content Include="migration\Db_with_demodata_19_05_2020_09_07_32_verbessert.sql" />
     <Content Include="migration\Db_with_demodata_29_04_2020_10_07_32.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

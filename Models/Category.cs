@@ -37,11 +37,10 @@ namespace Rateit.Models
         /// </summary>
         private void LoadData()
         {
-            //@todo cateegory name correction in db
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT * FROM category WHERE idcateegory = {this.Id};";
+                string sql = $"SELECT * FROM category WHERE idcategory = {this.Id};";
 
                 connection.Command.CommandText = sql;
                 connection.Command.ExecuteReader();
