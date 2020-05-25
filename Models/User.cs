@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Rateit.Models
 {
-    public class User : INotifyPropertyChanged
+    public class User
     {
 
         #region fields
@@ -16,7 +16,7 @@ namespace Rateit.Models
 
         private string _Name;
 
-        private int _adminflag;
+        //private int _adminflag;
 
         #endregion
 
@@ -25,20 +25,20 @@ namespace Rateit.Models
         public int Id 
         {
             get { return _Id; }
-            set { _Id = value; RaisePropertyChanged("Id"); } 
+            set { _Id = value; } 
         }
 
         public string Name 
         {
             get { return _Name; } 
-            set { _Name = value; RaisePropertyChanged("Name"); }
+            set { _Name = value; }
         }
 
-        public int adminflag
-        {
-            get { return _adminflag; }
-            set { _adminflag = value; RaisePropertyChanged("adminflag"); }
-        }
+        //public int adminflag
+        //{
+        //    get { return _adminflag; }
+        //    set { _adminflag = value; }
+        //}
 
         #endregion
 
@@ -153,14 +153,12 @@ namespace Rateit.Models
 
         private void LoadData()
         {
-            //TODO: DB Get
-
             DBConnector connection = new DBConnector();
 
             if (connection.Open())
             {
                 //Get the user with specified name and password
-                string sql = $"SELECT * FROM user WHERE iduser ={this._Id}";
+                string sql = $"SELECT * FROM user WHERE iduser = {this._Id}";
 
                 connection.getResult(sql);
                 while (connection.Reader.Read())
@@ -176,18 +174,6 @@ namespace Rateit.Models
 
         #endregion
 
-        #region events
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
-
-        #endregion
     }
 }

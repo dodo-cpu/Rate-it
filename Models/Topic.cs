@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rateit.Models
 {
-    class Topic
+    public class Topic
     {
 
         #region Properties
@@ -47,7 +47,7 @@ namespace Rateit.Models
         }
 
         /// <summary>
-        /// Returns the ratings of the Topic made from the current user
+        /// Returns the ratings of the Topic made by the current user
         /// </summary>
         /// <returns></returns>
         public List<double> GetUserRatings()
@@ -78,6 +78,43 @@ namespace Rateit.Models
             return true;
         }
 
+        #region public static methods
+
+        /// <summary>
+        /// Returns all Topics that have the given CategoryId
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public static List<Topic> GetTopicsByCategoryId(int categoryId)
+        {
+            List<Topic> results = new List<Topic>();
+            List<int> ids = new List<int>();
+
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
+            {
+                string sql = $"SELECT idtopic FROM topic WHERE category_idcategory = {categoryId};";
+
+                connection.getResult(sql);
+
+                while (connection.Reader.Read())
+                {
+                    ids.Add(connection.Reader.GetInt32(0));
+                }
+
+                connection.Close();
+            }
+
+            foreach (int id in ids)
+            {
+                results.Add(new Topic(id));
+            }
+
+            return results;
+        }
+
+        #endregion
+
         #endregion
 
         #region private methods
@@ -91,16 +128,15 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT * FROM topic WHERE idtopic = {this.Id};";
+                string sql = $"SELECT category_idcategory, name FROM topic WHERE idtopic = {this.Id};";
 
-                connection.Command.CommandText = sql;
-                connection.Command.ExecuteReader();
+                connection.getResult(sql);
 
                 while (connection.Reader.Read())
                 {
                     //TODO: Debug, GetValue ist evtl 0 indexiert
-                    this.CategoryId = Convert.ToInt32(connection.Reader.GetValue(1));
-                    this.Name = connection.Reader.GetValue(2).ToString();
+                    this.CategoryId = Convert.ToInt32(connection.Reader.GetValue(0));
+                    this.Name = connection.Reader.GetValue(1).ToString();
                 }
 
                 connection.Close();
