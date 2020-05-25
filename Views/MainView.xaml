@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Rateit"
         xmlns:vm="clr-namespace:Rateit.ViewModels"
         mc:Ignorable="d"
-        Title="MainView" Visibility="{Binding }" Height="450" Width="800">
+        Title="MainView"  Height="450" Width="800">
 
     <Window.Resources>
         <vm:LoginViewModel x:Key="MainViewModel"/>
@@ -16,7 +16,7 @@
             <ColumnDefinition Width="169*"/>
             <ColumnDefinition Width="227*"/>
         </Grid.ColumnDefinitions>
-        <Grid Height="380" Margin="200,39,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
+        <Grid  Height="380" Margin="200,39,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -32,7 +32,7 @@
             <Label Content="  Bester Song" HorizontalAlignment="Left" Margin="397,30,0,0" VerticalAlignment="Top" Width="180" Height="30" FontSize="16" Foreground="#FF3A008D" FontFamily="Segoe UI Black"/>
             <ListBox HorizontalAlignment="Left" Height="211" Margin="226,60,0,0" VerticalAlignment="Top" Width="155"/>
             <ListBox HorizontalAlignment="Left" Height="211" Margin="409,60,0,0" VerticalAlignment="Top" Width="155"/>
-            <Button Name="buttonfilm" Content="Film bewerten" HorizontalAlignment="Left" Height="48" Margin="27,309,0,0" VerticalAlignment="Top" Width="180" Background="#FF3A008D" FontWeight="Bold" Foreground="White"/>
+            <Button Command="{Binding ButtonCommand}" Name="buttonfilm" Content="Film bewerten" HorizontalAlignment="Left" Height="48" Margin="27,309,0,0" VerticalAlignment="Top" Width="180" Background="#FF3A008D" FontWeight="Bold" Foreground="White"/>
             <Button Name="buttonbuch" Content="Buch bewerten" HorizontalAlignment="Left" Height="48" Margin="212,309,0,0" VerticalAlignment="Top" Width="180" Background="#FF3A008D" FontWeight="Bold" Foreground="White"/>
             <Button Name="buttonsong" Content="Song Bewerten" HorizontalAlignment="Left" Height="48" Margin="397,309,0,0" VerticalAlignment="Top" Width="180" Background="#FF3A008D" FontWeight="Bold" Foreground="White"/>
         </Grid>

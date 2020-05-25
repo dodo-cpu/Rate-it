@@ -11,18 +11,33 @@ namespace Rateit.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        private int _id;
 
-        public string Name { get; set; }
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        private string _name;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        private int? _parentId;
+
+        public int? ParentId
+        {
+            get { return _parentId; }
+            set { _parentId = value; }
+        }
 
         #endregion
 
-        #region public Methods
-
-        public Category()
-        {
-
-        }
+        #region Methods
 
         public Category(int id)
         {
@@ -36,22 +51,56 @@ namespace Rateit.Models
         /// </summary>
         public virtual void LoadData()
         {
-            //@todo cateegory name correction in db
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT name FROM category WHERE idcateegory = {this.Id};";
+                string sql = $"SELECT name, idParent FROM category WHERE idcateegory = {this.Id};";
 
                 connection.Command.CommandText = sql;
                 connection.Command.ExecuteReader();
 
                 while (connection.Reader.Read())
                 {
-                    this.Name = connection.Reader.GetValue(0).ToString();
+                    this.Name = connection.Reader.GetString(0);
+                    this.ParentId = connection.Reader.GetInt32(1);
                 }
 
                 connection.Close();
             }
+        }
+
+        /// <summary>
+        /// Returns all Categories that have the parentId, returns all parent categories if parentId = NULL
+        /// </summary>
+        /// <param name="parentId">Id of parent category or NULL</param>
+        /// <returns></returns>
+        public static List<Category> GetCategoriesByParent(int? parentId)
+        {
+            List<Category> results = new List<Category>();
+            List<int> ids = new List<int>();
+
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
+            {
+                string sql = $"SELECT idcategory FROM category WHERE idParent = {parentId};";
+
+                connection.Command.CommandText = sql;
+                connection.Command.ExecuteReader();
+
+                while (connection.Reader.Read())
+                {
+                    ids.Add(connection.Reader.GetInt32(0));
+                }
+
+                connection.Close();
+            }
+
+            foreach (int id in ids)
+            {
+                results.Add(new Category(id));
+            }
+
+            return results;
         }
 
         #endregion
