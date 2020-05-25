@@ -24,6 +24,19 @@ namespace Rateit.Views
         {
             InitializeComponent();
             this.DataContext = new ViewModels.MainViewModel();
+            //ViewModels.MainViewModel model = (ViewModels.MainViewModel)this.DataContext;
+            //model.Hiding += Model_Hiding;
+            //model.Showing += Model_Showing;
+        }
+
+        private void Model_Hiding()
+        {
+            //this.Hide();
+        }
+
+        private void Model_Showing()
+        {
+            //this.Show();
         }
 
     }

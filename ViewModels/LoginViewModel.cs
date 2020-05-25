@@ -26,8 +26,6 @@ namespace Rateit.ViewModels
 
         public Models.User User { get; private set; }
 
-        public System.Windows.Visibility Visibility { get; set; }
-
         public ICommand LoginCommand
         {
             get

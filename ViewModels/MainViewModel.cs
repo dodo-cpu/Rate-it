@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using Rateit.Views;
+using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
@@ -14,43 +16,32 @@ namespace Rateit.ViewModels
 
         #region fields
 
-        //public ICommand _loginCommand;
-
-        //private ICommand _registerCommand;
+        private ICommand _buttonCommand;
+        private ObservableCollection<Category> _parentCategories;
+        private ObservableCollection<Category> _childCategories;
+        private ObservableCollection<Topic> _topics;
 
         #endregion
 
         #region properties
 
-        //public ICommand LoginCommand
-        //{
-        //    get
-        //    {
-        //        if (_loginCommand == null)
-        //        {
-        //           // _loginCommand = new Commands.RelayCommand(c => OnLogin(), c => CanLogin(), false);
-        //        }
-        //        return _loginCommand;
-        //    }
-        //}
+        public ICommand ButtonCommand
+        {
+            get
+            {
+                if (_buttonCommand == null)
+                {
+                    _buttonCommand = new Commands.RelayCommand(c => OnButton(), c => true, false);
+                }
+                return _buttonCommand;
+            }
+        }
 
-        //public ICommand RegisterCommand
-        //{
-        //    get
-        //    {
-        //        if (_registerCommand == null)
-        //        {
-        //           // _registerCommand = new Commands.RelayCommand(c => OnRegister(), c => CanLogin(), false);
-        //        }
-        //        return _registerCommand;
-        //    }
-        //}
+        private ObservableCollection<Category> ParentCategories { get => _parentCategories; set => _parentCategories = value; }
 
-        private Views.LoginView LoginView { get; set; }
+        private ObservableCollection<Category> ChildtCategories { get => _childCategories; set => _childCategories = value; }
 
-        public System.Windows.Visibility Visibility { get; set; }
-
-        private ObservableCollection<Models.Category> ParentCategories { get; set; }
+        private ObservableCollection<Topic> Topics { get => _topics; set => _topics = value; }
 
         #endregion
 
@@ -58,10 +49,14 @@ namespace Rateit.ViewModels
 
         public MainViewModel()
         {
-            this.LoginView = new Views.LoginView();
-            this.LoginView.Show();
-            System.Threading.Thread.Sleep(5000);
-            this.LoginView.Hide();
+            this.ParentCategories = new ObservableCollection<Category>(Category.GetCategoriesByParent(null));
+            //this.LoginView = new Views.LoginView();
+            //this.LoginView.Show();
+        }
+
+        public void OnButton()
+        {
+            //RaiseHide();
         }
 
         #endregion
@@ -78,11 +73,22 @@ namespace Rateit.ViewModels
 
         private void RaisePropertyChanged(string property)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        //public event HideEventHandler Hiding;
+        //public delegate void HideEventHandler();
+        //private void RaiseHide()
+        //{
+        //    Hiding?.Invoke();
+        //}
+
+        //public event ShowEventHandler Showing;
+        //public delegate void ShowEventHandler();
+        //private void RaiseShow()
+        //{
+        //    Showing?.Invoke();
+        //}
 
         #endregion
 
