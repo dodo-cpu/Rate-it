@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rateit.Models
 {
-    class Category
+    public class Category
     {
 
         #region Properties
@@ -54,15 +54,21 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT name, idParent FROM category WHERE idcateegory = {this.Id};";
+                string sql = $"SELECT name, idParent FROM category WHERE idcategory = {this.Id};";
 
-                connection.Command.CommandText = sql;
-                connection.Command.ExecuteReader();
+                connection.getResult(sql);
 
                 while (connection.Reader.Read())
                 {
                     this.Name = connection.Reader.GetString(0);
-                    this.ParentId = connection.Reader.GetInt32(1);
+                    if (connection.Reader.IsDBNull(1))
+                    {
+                        this.ParentId = null;
+                    }
+                    else
+                    {
+                        this.ParentId = (int?)connection.Reader.GetValue(1);
+                    }
                 }
 
                 connection.Close();
@@ -82,10 +88,17 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT idcategory FROM category WHERE idParent = {parentId};";
+                string sql;
+                if (parentId is null)
+                {
+                    sql = "SELECT idcategory FROM category WHERE idParent IS NULL;";
+                }
+                else
+                {
+                    sql = $"SELECT idcategory FROM category WHERE idParent = {parentId};";
+                }
 
-                connection.Command.CommandText = sql;
-                connection.Command.ExecuteReader();
+                connection.getResult(sql);
 
                 while (connection.Reader.Read())
                 {
