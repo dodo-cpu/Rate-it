@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Rateit"
         xmlns:vm="clr-namespace:Rateit.ViewModels"
         mc:Ignorable="d"
-        Title="LoginView" Visibility="Collapsed" Height="450" Width="800">
+        Title="LoginView" Height="450" Width="800">
 
     <Window.Resources>
         <vm:LoginViewModel x:Key="LoginViewModel"/>
