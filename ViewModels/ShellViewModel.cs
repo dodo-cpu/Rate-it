@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Rateit.Events;
 
 namespace Rateit.ViewModels
 {
-    public class ShellViewModel : Screen
+    public class ShellViewModel : Conductor<object>, IHandle<LoginEvent>
     {
 
         #region Fields
@@ -44,7 +45,6 @@ namespace Rateit.ViewModels
 			{ 
 				_selectedParentCategory = value;
 				NotifyOfPropertyChange(() => SelectedParentCategory);
-				LoadChildCategories();
 			}
 		}
 
@@ -84,11 +84,18 @@ namespace Rateit.ViewModels
 
 		public ShellViewModel()
 		{
-			LoadParentCategories();
+            //LoadParentCategories();
+            AggregatorProvider.Aggregator.Subscribe(this);
 
-			User = new User(1);
+            ActivateItem(new LoginViewModel());
 
-		}
+        }
+
+        public void Logout()
+        {
+            User = null;
+            ActivateItem(new LoginViewModel());
+        }
 
 		#endregion
 
@@ -107,25 +114,40 @@ namespace Rateit.ViewModels
 		private void LoadChildCategories()
 		{
 			ChildCategories.Clear();
-			List<Category> categories = Category.GetCategoriesByParent(SelectedParentCategory.Id);
-			foreach (Category category in categories)
-			{
-				ChildCategories.Add(category);
-			}
+            if (SelectedParentCategory != null)
+            {
+                List<Category> categories = Category.GetCategoriesByParent(SelectedParentCategory.Id);
+                foreach (Category category in categories)
+                {
+                    ChildCategories.Add(category);
+                }
+            }
 		}
 
 		private void LoadTopics()
 		{
 			Topics.Clear();
-			List<Topic> topics = Topic.GetTopicsByCategoryId(SelectedChildCategory.Id);
-			foreach (Topic topic in topics)
-			{
-				Topics.Add(topic);
-			}
-
+            if (SelectedChildCategory != null)
+            {
+                List<Topic> topics = Topic.GetTopicsByCategoryId(SelectedChildCategory.Id);
+                foreach (Topic topic in topics)
+                {
+                    Topics.Add(topic);
+                }
+            }
 		}
 
-		#endregion
+        #endregion
 
-	}
+        #region Events
+
+        public void Handle(LoginEvent message)
+        {
+            User = message.LoggedInUser;
+            //TODO: ActivateItem(new RatingsViewModel);
+        }
+
+        #endregion
+
+    }
 }

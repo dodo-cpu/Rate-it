@@ -11,6 +11,7 @@ namespace Rateit
 {
     public class Bootstrapper : BootstrapperBase
     {
+
         public Bootstrapper()
         {
             Initialize();
@@ -21,5 +22,7 @@ namespace Rateit
             DisplayRootViewFor<ShellViewModel>();
         }
 
+
     }
+
 }
