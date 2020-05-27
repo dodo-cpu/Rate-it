@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Rateit.Views
 {
     /// <summary>
-    /// Interaktionslogik für MainView.xaml
+    /// Interaktionslogik für OverView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class OverView : UserControl
     {
-        public MainView()
+        public OverView()
         {
             InitializeComponent();
         }

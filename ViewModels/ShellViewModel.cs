@@ -51,6 +51,7 @@ namespace Rateit.ViewModels
 				_selectedParentCategory = value;
 				NotifyOfPropertyChange(() => SelectedParentCategory);
 				LoadChildCategories();
+				ActivateItem(new OverViewModel(SelectedParentCategory.Id));
 			}
 		}
 
@@ -68,6 +69,7 @@ namespace Rateit.ViewModels
 				_selectedChildCategory = value;
 				NotifyOfPropertyChange(() => SelectedChildCategory);
 				LoadTopics();
+				ActivateItem(new OverViewModel(SelectedChildCategory.Id));
 			}
 		}
 
@@ -103,9 +105,9 @@ namespace Rateit.ViewModels
             //LoadParentCategories();
             AggregatorProvider.Aggregator.Subscribe(this);
 
-            ActivateItem(new LoginViewModel());
+			ActivateItem(new LoginViewModel());
 
-        }
+		}
 
         public void Logout()
         {
