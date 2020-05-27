@@ -21,6 +21,7 @@ namespace Rateit.ViewModels
 		private Category _selectedChildCategory;
 		private BindableCollection<Topic> _topics = new BindableCollection<Topic>();
 		private Topic _selectedTopic;
+		private System.Windows.Visibility _logoutVisibility = System.Windows.Visibility.Hidden;
 
 		#endregion
 
@@ -29,7 +30,11 @@ namespace Rateit.ViewModels
 		public User User
 		{
 			get { return _user; }
-			set { _user = value; }
+			set 
+			{ 
+				_user = value;
+				NotifyOfPropertyChange(() => User);
+			}
 		}
 
 		public BindableCollection<Category> ParentCategories
@@ -45,6 +50,7 @@ namespace Rateit.ViewModels
 			{ 
 				_selectedParentCategory = value;
 				NotifyOfPropertyChange(() => SelectedParentCategory);
+				LoadChildCategories();
 			}
 		}
 
@@ -77,6 +83,16 @@ namespace Rateit.ViewModels
 			set { _selectedTopic = value; }
 		}
 
+		public System.Windows.Visibility LogoutVisibility
+		{
+			get { return _logoutVisibility; }
+			private set 
+			{
+				_logoutVisibility = value;
+				NotifyOfPropertyChange(() => LogoutVisibility);
+			}
+		}
+
 
 		#endregion
 
@@ -94,6 +110,7 @@ namespace Rateit.ViewModels
         public void Logout()
         {
             User = null;
+			LogoutVisibility = System.Windows.Visibility.Hidden;
             ActivateItem(new LoginViewModel());
         }
 
@@ -144,6 +161,8 @@ namespace Rateit.ViewModels
         public void Handle(LoginEvent message)
         {
             User = message.LoggedInUser;
+			LogoutVisibility = System.Windows.Visibility.Visible;
+			LoadParentCategories();
             //TODO: ActivateItem(new RatingsViewModel);
         }
 
