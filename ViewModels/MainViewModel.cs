@@ -11,7 +11,7 @@ using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged
+    class MainViewModel
     {
 
         #region fields
@@ -67,14 +67,14 @@ namespace Rateit.ViewModels
 
         #endregion
 
-        #region events
+        //#region events
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
+        //private void RaisePropertyChanged(string property)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        //}
 
         //public event HideEventHandler Hiding;
         //public delegate void HideEventHandler();
@@ -90,7 +90,7 @@ namespace Rateit.ViewModels
         //    Showing?.Invoke();
         //}
 
-        #endregion
+        //#endregion
 
     }
 }
