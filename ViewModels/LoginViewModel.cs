@@ -5,116 +5,139 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Controls;
+using Caliburn.Micro;
+using Rateit.Events;
+using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel
     {
 
         #region fields
 
+        private User _user;
         private string _name;
-
-        private string _password;
-
-        private Models.User _user;
-
-        public ICommand _loginCommand;
-
-        private ICommand _registerCommand;
 
         #endregion
 
         #region properties
 
-        public string Name
-        {
-            private get { return _name; }
-            set { _name = value; }// RaisePropertyChanged("Name"); }
-        }
-        public string Password
-        {
-            private get { return _password; }
-            set { _password = value; }// RaisePropertyChanged("Password"); }
-        }
-
-        public Models.User User
+        public User User
         {
             get { return _user; }
-            private set { _user = value; }//RaisePropertyChanged("User"); }
+            set { _user = value; }
         }
 
-        public ICommand LoginCommand
+        public string Name
         {
-            get
-            {
-                if (_loginCommand == null)
-                {
-                    _loginCommand = new Commands.RelayCommand(c => OnLogin(), c => CanLogin(),false);
-                }
-                return _loginCommand;
-            }
+            get { return _name; }
+            set { _name = value; }
         }
 
-        public ICommand RegisterCommand
+        private string _password;
+
+        public string Password
         {
-            get
-            {
-                if (_registerCommand == null)
-                {
-                    _registerCommand = new Commands.RelayCommand(c => OnRegister(), c => CanLogin(), false);
-                }
-                return _registerCommand;
-            }
+            get { return _password; }
+            set { _password = value; }
         }
+
 
         #endregion
 
         #region public methods
 
+        public void Login()
+        {
+            User = User.Login(Name, Password);
+            if (User != null)
+            {
+                AggregatorProvider.Aggregator.PublishOnCurrentThread(new LoginEvent(User));
+            }
+            else
+            {
+                //TODO: signal to user didnt work
+            }
+        }
 
+
+        public void Register()
+        {
+            User = User.Register(Name, Password);
+            if (User != null)
+            {
+                AggregatorProvider.Aggregator.PublishOnCurrentThread(new LoginEvent(User));
+            }
+            else
+            {
+                //TODO: signal to user didnt work
+            }
+        }
+
+        public void PasswordChanged(PasswordBox source)
+        {
+            Password = source.Password;
+        }
 
         #endregion
 
         #region private methods
 
-        private void OnLogin()
-        {
-            this.User = Models.User.Login(this.Name, this.Password);
-            OnLoggedIn();
-        }
+        //private void OnLogin(string name, object password)
+        //{
+        //    PasswordBox pw = password as PasswordBox;
+        //    this.User = Models.User.Login(name, pw.Password);
+        //    if (this.User != null)
+        //    {
+        //        OnLoggedIn();
+        //    }
+        //    else
+        //    {
+        //        //TODO: Signal to the user that input was incorrect
+        //    }
+        //}
 
-        private bool CanLogin()
-        {
-            //TODO: Input check / Exceptions
-            return true;
-        }
+        //private bool CanLogin()
+        //{
+        //    //TODO: Input check / Exceptions
+        //    return true;
+        //}
 
-        private void OnRegister()
-        {
-            this.User = Models.User.Register(this.Name, this.Password);
-            OnLoggedIn();
-        }
+        //private void OnRegister(string name, object password)
+        //{
+        //    PasswordBox pw = password as PasswordBox;
+        //    this.User = Models.User.Register(name, pw.Password);
+        //    if (this.User != null)
+        //    {
+        //        OnLoggedIn();
+        //    }
+        //    else
+        //    {
+        //        //TODO: Signal to the user that input was incorrect
+        //    }
+        //}
 
         #endregion
 
         #region events and delegates
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        public event LoggedInEventHandler LoggedIn;
+        //public event LoggedInEventHandler LoggedIn;
 
-        public delegate void LoggedInEventHandler(object source, EventArgs args);
+        //public delegate void LoggedInEventHandler(object source, EventArgs args);
 
-        private void RaisePropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
+        //private void RaisePropertyChanged(string property)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        //}
 
-        protected virtual void OnLoggedIn()
-        {
-            LoggedIn?.Invoke(this, EventArgs.Empty);
-        }
+        //protected virtual void OnLoggedIn()
+        //{
+        //    LoggedIn?.Invoke(this, EventArgs.Empty);
+        //}
 
         #endregion
 

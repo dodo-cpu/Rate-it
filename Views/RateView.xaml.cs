@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Rateit.Views
 {
     /// <summary>
-    /// Interaktionslogik für LoginView.xaml
+    /// Interaktionslogik für RateView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class RateView : UserControl
     {
-        public LoginView()
+        public RateView()
         {
             InitializeComponent();
         }

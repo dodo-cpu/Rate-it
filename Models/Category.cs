@@ -6,55 +6,114 @@ using System.Threading.Tasks;
 
 namespace Rateit.Models
 {
-    class Category
+    public class Category
     {
 
-        #region Propertiies
+        #region Properties
 
-        public int Id { get; private set; }
+        private int _id;
 
-        public string Name { get; private set; }
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
-        public int ParentId { get; private set; }
+        private string _name;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        private int? _parentId;
+
+        public int? ParentId
+        {
+            get { return _parentId; }
+            set { _parentId = value; }
+        }
 
         #endregion
 
-        #region public Methods
+        #region Methods
 
         public Category(int id)
         {
             this.Id = id;
 
-            LoadData();
+            this.LoadData();
         }
-
-        #endregion
-
-        #region private methods
 
         /// <summary>
         /// Reads the data from the database
         /// </summary>
-        private void LoadData()
+        public virtual void LoadData()
         {
-            //@todo cateegory name correction in db
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT * FROM category WHERE idcateegory = {this.Id};";
+                string sql = $"SELECT name, idParent FROM category WHERE idcategory = {this.Id};";
 
-                connection.Command.CommandText = sql;
-                connection.Command.ExecuteReader();
+                connection.getResult(sql);
 
                 while (connection.Reader.Read())
                 {
-                    //TODO: Debug, GetValue ist evtl 0 indexiert
-                    this.Name = connection.Reader.GetValue(1).ToString();
-                    this.ParentId = Convert.ToInt32(connection.Reader.GetValue(2));
+                    this.Name = connection.Reader.GetString(0);
+                    if (connection.Reader.IsDBNull(1))
+                    {
+                        this.ParentId = null;
+                    }
+                    else
+                    {
+                        this.ParentId = (int?)connection.Reader.GetValue(1);
+                    }
                 }
 
                 connection.Close();
             }
+        }
+
+        /// <summary>
+        /// Returns all Categories that have the parentId, returns all parent categories if parentId = NULL
+        /// </summary>
+        /// <param name="parentId">Id of parent category or NULL</param>
+        /// <returns></returns>
+        public static List<Category> GetCategoriesByParent(int? parentId)
+        {
+            List<Category> results = new List<Category>();
+            List<int> ids = new List<int>();
+
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
+            {
+                string sql;
+                if (parentId is null)
+                {
+                    sql = "SELECT idcategory FROM category WHERE idParent IS NULL;";
+                }
+                else
+                {
+                    sql = $"SELECT idcategory FROM category WHERE idParent = {parentId};";
+                }
+
+                connection.getResult(sql);
+
+                while (connection.Reader.Read())
+                {
+                    ids.Add(connection.Reader.GetInt32(0));
+                }
+
+                connection.Close();
+            }
+
+            foreach (int id in ids)
+            {
+                results.Add(new Category(id));
+            }
+
+            return results;
         }
 
         #endregion

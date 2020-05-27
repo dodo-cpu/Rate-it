@@ -124,8 +124,14 @@ namespace Rateit.Models
           
             MySqlCommand myCommand = new MySqlCommand(sql, this.Connection);
 
+            //TODO: ByJohann: We need alseo a nonQuery() execution method to write to the DB i think
+            if (this.Reader != null)
+            {
+                this.Reader.Close();
+            }
             return this.Reader = myCommand.ExecuteReader();
         }
+
         #region public static methods
 
         /// <summary>
