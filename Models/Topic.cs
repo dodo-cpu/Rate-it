@@ -15,7 +15,7 @@ namespace Rateit.Models
 
         public string Name { get; private set; }
 
-        private List<Criterion> Criteria { get; set; }
+        public List<Criterion> Criteria { get; set; }
 
         public int CategoryId { get; private set; }
 
@@ -42,7 +42,7 @@ namespace Rateit.Models
 
             foreach (Criterion criterion in this.Criteria)
             {
-                ratings.Add(criterion.publicRating);
+                //ratings.Add(criterion.publicRating);
             }
 
             return ratings;
@@ -58,7 +58,7 @@ namespace Rateit.Models
 
             foreach (Criterion criterion in this.Criteria)
             {
-                ratings.Add(criterion.userRating);
+                ratings.Add(criterion.UserRating);
             }
 
             return ratings;
@@ -115,70 +115,84 @@ namespace Rateit.Models
             return results;
         }
 
+        //By Johann
         /// <summary>
-        /// Returns all Topics that are of the given Category, ordered by average score
+        /// Returns all Topics (that are of the given Category) ordered by average score
         /// </summary>
         /// <param name="categoryId"></param>
-        /// <returns></returns>
-        public static List<Topic> GetTopicsByRanking(int categoryId)
+        /// <returns>Topics ordered by average score</returns>
+        public static List<Topic> GetTopicsByRanking(int? categoryId)
         {
             List<Topic> results = new List<Topic>();
-            List<int> ids = new List<int>();
-            List<int> categories = new List<int>();
-            int? parentId = null;
-
+            List<int> topicIds = new List<int>();
             DBConnector connection = new DBConnector();
+
             if (connection.Open())
             {
-                string sql = $"SELECT idParent FROM category WHERE idcategory = {categoryId};";
+                List<int> categoryIds = new List<int>();
+                int? parentId = null;
+                string sql;
 
-                connection.getResult(sql);
-
-                while (connection.Reader.Read())
+                if (categoryId == null)
                 {
-                    if (!connection.Reader.IsDBNull(0))
-                    {
-                        parentId = connection.Reader.GetInt32(0);
-                    }
+                    sql = "SELECT idtopic FROM topic ORDER BY totalpoints / totalrankings DESC, idtopic ASC;";
                 }
-
-                if (parentId == null)
+                else
                 {
-                    sql = $"SELECT idcategory FROM category WHERE idParent = {categoryId};";
+                    //Get ParentCategoryId
+                    sql = $"SELECT idParent FROM category WHERE idcategory = {categoryId};";
 
                     connection.getResult(sql);
 
                     while (connection.Reader.Read())
                     {
-                        categories.Add(connection.Reader.GetInt32(0));
+                        if (!connection.Reader.IsDBNull(0))
+                        {
+                            parentId = connection.Reader.GetInt32(0);
+                        }
                     }
 
-                }
-                else
-                {
-                    categories.Add(categoryId);
-                }
+                    //If ParentId is null, get all childCategoryIds
+                    if (parentId == null)
+                    {
+                        sql = $"SELECT idcategory FROM category WHERE idParent = {categoryId};";
 
-                sql = "SELECT idtopic FROM topic WHERE category_idcategory IN (";
+                        connection.getResult(sql);
 
-                foreach (int category in categories)
-                {
-                    sql += category.ToString() + ", ";
+                        while (connection.Reader.Read())
+                        {
+                            categoryIds.Add(connection.Reader.GetInt32(0));
+                        }
+
+                    }
+                    else
+                    {
+                        categoryIds.Add((int)categoryId);
+                    }
+
+                    //Get all TopicsIds from the category/-ies
+                    sql = "SELECT idtopic FROM topic WHERE category_idcategory IN (";
+
+                    foreach (int category in categoryIds)
+                    {
+                        sql += category.ToString() + ", ";
+                    }
+
+                    sql = sql.Remove(sql.Length - 2) + ") ORDER BY totalpoints / totalrankings DESC, idtopic ASC;";
                 }
-
-                sql = sql.Remove(sql.Length - 2) + ") ORDER BY totalpoints / totalrankings DESC, idtopic ASC;";
 
                 connection.getResult(sql);
 
                 while (connection.Reader.Read())
                 {
-                    ids.Add(connection.Reader.GetInt32(0));
+                    topicIds.Add(connection.Reader.GetInt32(0));
                 }
 
                 connection.Close();
             }
 
-            foreach (int id in ids)
+            //Create Topics from TopicIds
+            foreach (int id in topicIds)
             {
                 results.Add(new Topic(id));
             }
