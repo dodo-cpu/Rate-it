@@ -8,25 +8,23 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using Rateit.Events;
+using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
     public class LoginViewModel
     {
-        private readonly IEventAggregator _eventAggregator;
-
-
 
         #region fields
 
-        private Models.User _user;
+        private User _user;
         private string _name;
 
         #endregion
 
         #region properties
 
-        public Models.User User
+        public User User
         {
             get { return _user; }
             set { _user = value; }
@@ -53,7 +51,7 @@ namespace Rateit.ViewModels
 
         public void Login()
         {
-            User = Models.User.Login(Name, Password);
+            User = User.Login(Name, Password);
             if (User != null)
             {
                 AggregatorProvider.Aggregator.PublishOnCurrentThread(new LoginEvent(User));
@@ -67,7 +65,7 @@ namespace Rateit.ViewModels
 
         public void Register()
         {
-            User = Models.User.Register(Name, Password);
+            User = User.Register(Name, Password);
             if (User != null)
             {
                 AggregatorProvider.Aggregator.PublishOnCurrentThread(new LoginEvent(User));
