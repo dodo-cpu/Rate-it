@@ -52,7 +52,7 @@ namespace Rateit.ViewModels
 			set
 			{
 				_selectedParentCategory = value;
-				NotifyOfPropertyChange(() => SelectedParentCategory);
+				//NotifyOfPropertyChange(() => SelectedParentCategory);
 				LoadChildCategories();
 				ActivateItem(new OverViewModel(SelectedParentCategory.Id));
 			}
@@ -70,7 +70,7 @@ namespace Rateit.ViewModels
 			set
 			{
 				_selectedChildCategory = value;
-				NotifyOfPropertyChange(() => SelectedChildCategory);
+				//NotifyOfPropertyChange(() => SelectedChildCategory);
 				LoadTopics();
 				ActivateItem(new OverViewModel(SelectedChildCategory.Id));
 			}
@@ -85,7 +85,11 @@ namespace Rateit.ViewModels
 		public Topic SelectedTopic
 		{
 			get { return _selectedTopic; }
-			set { _selectedTopic = value; }
+			set 
+			{ 
+				_selectedTopic = value;
+				ActivateItem(new RateViewModel(SelectedTopic, User));
+			}
 		}
 
 		#endregion
@@ -97,13 +101,8 @@ namespace Rateit.ViewModels
 			User = loggedInUser;
 			LoadParentCategories();
 			//TODO: specify starting category
-			ActivateItem(new OverViewModel(1));
+			ActivateItem(new OverViewModel(null));
 
-		}
-
-		public void Logout()
-		{
-			AggregatorProvider.Aggregator.PublishOnCurrentThread(new LogoutEvent());
 		}
 
 		#endregion
@@ -113,11 +112,7 @@ namespace Rateit.ViewModels
 		private void LoadParentCategories()
 		{
 			ParentCategories.Clear();
-			List<Category> categories = Category.GetCategoriesByParent(null);
-			foreach (Category category in categories)
-			{
-				ParentCategories.Add(category);
-			}
+			ParentCategories.AddRange(Category.GetCategoriesByParent(null));
 		}
 
 		private void LoadChildCategories()
@@ -125,11 +120,7 @@ namespace Rateit.ViewModels
 			ChildCategories.Clear();
 			if (SelectedParentCategory != null)
 			{
-				List<Category> categories = Category.GetCategoriesByParent(SelectedParentCategory.Id);
-				foreach (Category category in categories)
-				{
-					ChildCategories.Add(category);
-				}
+				ChildCategories.AddRange(Category.GetCategoriesByParent(SelectedParentCategory.Id));
 			}
 		}
 
@@ -138,11 +129,7 @@ namespace Rateit.ViewModels
 			Topics.Clear();
 			if (SelectedChildCategory != null)
 			{
-				List<Topic> topics = Topic.GetTopicsByCategoryId(SelectedChildCategory.Id);
-				foreach (Topic topic in topics)
-				{
-					Topics.Add(topic);
-				}
+				Topics.AddRange(Topic.GetTopicsByCategoryId(SelectedChildCategory.Id));
 			}
 		}
 
@@ -150,7 +137,10 @@ namespace Rateit.ViewModels
 
 		#region Events
 
-
+		public void Logout()
+		{
+			AggregatorProvider.Aggregator.PublishOnCurrentThread(new LogoutEvent());
+		}
 
 		#endregion
 

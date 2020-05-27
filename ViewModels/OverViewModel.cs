@@ -8,9 +8,8 @@ using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
-    class OverViewModel
+    public class OverViewModel
     {
-
 		private BindableCollection<Topic> _topics = new BindableCollection<Topic>();
 		public BindableCollection<Topic> Topics
 		{
@@ -18,7 +17,7 @@ namespace Rateit.ViewModels
 			set { _topics = value; }
 		}
 
-		public OverViewModel(int categoryId)
+		public OverViewModel(int? categoryId)
 		{
 			Topics.AddRange(Topic.GetTopicsByRanking(categoryId));
 		}
