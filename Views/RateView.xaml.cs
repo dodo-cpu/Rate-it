@@ -24,5 +24,10 @@ namespace Rateit.Views
         {
             InitializeComponent();
         }
+
+        private void Criteria_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

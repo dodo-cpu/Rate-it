@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Rateit.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="450" MaxHeight="450" MaxWidth="800" d:DesignWidth="800">
+    <Grid Background="#FF3A008D">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
@@ -28,12 +28,12 @@
 
         <!-- Row 1 -->
         <TextBlock Text="{Binding Path=User.Name, Mode=OneWay}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center" ></TextBlock>
-        <Button x:Name="Logout" Content="Logout" Grid.Row="1" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,5,5,5"></Button>
+        <Button x:Name="Logout" Content="Logout" Background="#FF3A008D" FontWeight="Bold" Foreground="White" Grid.Row="1" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,5,5,5"></Button>
 
         <!-- Row 2 -->
-        <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Category:" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Text="Sub Category:" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Text="Topic:" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
+        <TextBlock Foreground="White" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Category:" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
+        <TextBlock Foreground="White" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Text="Sub Category:" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
+        <TextBlock Foreground="White" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Text="Topic:" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
 
 
         <!-- Row 3 -->

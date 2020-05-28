@@ -165,6 +165,7 @@
   <ItemGroup>
     <Content Include="migration\Datastruktur_29_04_2020_10_06_45.sql" />
     <Content Include="migration\Db_with_demodata_29_04_2020_10_07_32.sql" />
+    <Resource Include="rate1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

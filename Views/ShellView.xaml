@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rateit.Views"
         mc:Ignorable="d"
-        Title="ShellView" Background="Red" Height="auto" Width="auto" WindowStartupLocation="CenterScreen">
+        Title="ShellView" Height="450" Width="800" MaxHeight="450" MaxWidth="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -19,7 +19,10 @@
         </Grid.RowDefinitions>
 
         <!-- Row 1 -->
-        <ContentControl x:Name="ActiveItem" Grid.Row="1" Grid.Column="1"></ContentControl>
+        <ContentControl x:Name="ActiveItem" Grid.Row="1" Grid.Column="1">
+            <Image Margin="172,0,174,0" Source="Images/rate1.jpg" Stretch="Fill"/>
+
+        </ContentControl>
 
     </Grid>
 </Window>

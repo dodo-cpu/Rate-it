@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Rateit.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" MaxHeight="450" MaxWidth="800" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -14,15 +14,22 @@
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <DataGrid x:Name="Criteria" AutoGenerateColumns="false" Grid.Row="0" Grid.Column="0">
+
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FF3A008D"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <DataGrid Background="#FF3A008D" x:Name="Criteria" AutoGenerateColumns="false" Grid.Row="0" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Criterion" ></DataGridTextColumn>
                 <DataGridTemplateColumn Width="500" Header="Score">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Slider x:Name="Criteria_UserRating" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Width="200" Minimum="1" Maximum="5" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding UserRating}" />
+                                <Slider x:Name="Criteria_UserRating" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Width="200" Minimum="1" Maximum="10" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding UserRating}" />
                                 <Label HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding ElementName=Criteria_UserRating, Path=Value}"></Label>
                             </StackPanel>
                         </DataTemplate>
@@ -31,6 +38,6 @@
                 <!--<DataGridTextColumn Width="auto" Binding="{Binding UserRating}" Header="Score" ></DataGridTextColumn>-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Rateit" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="0,5,0,0"></Button>
+        <Button x:Name="Rateit" Height="48" Background="#FF3A008D" FontWeight="Bold" Foreground="White" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="189,16,189,11"></Button>
     </Grid>
 </UserControl>
