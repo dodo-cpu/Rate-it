@@ -38,6 +38,6 @@
                 <!--<DataGridTextColumn Width="auto" Binding="{Binding UserRating}" Header="Score" ></DataGridTextColumn>-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Rateit" Height="48" Background="#FF3A008D" FontWeight="Bold" Foreground="White" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="189,16,189,11"></Button>
+        <Button x:Name="Rateit" Height="48" Background="White" FontWeight="Bold" Foreground="#FF3A008D" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="189,16,189,11"></Button>
     </Grid>
 </UserControl>
