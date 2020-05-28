@@ -22,7 +22,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Slider x:Name="Criteria_UserRating" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Width="200" Minimum="1" Maximum="5" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding UserRating}" />
+                                <Slider x:Name="Criteria_UserRating" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Width="200" Minimum="1" Maximum="5" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding UserRating, UpdateSourceTrigger=PropertyChanged}" />
                                 <Label HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding ElementName=Criteria_UserRating, Path=Value}"></Label>
                             </StackPanel>
                         </DataTemplate>

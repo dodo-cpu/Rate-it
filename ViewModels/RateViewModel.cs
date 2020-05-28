@@ -13,6 +13,7 @@ namespace Rateit.ViewModels
     {
 
 		private BindableCollection<Criterion> _criteria = new BindableCollection<Criterion>();
+		private Topic topic;
 
 		public BindableCollection<Criterion> Criteria
 		{
@@ -24,16 +25,21 @@ namespace Rateit.ViewModels
 		public RateViewModel(Topic topic, User user)
 		{
 			Criteria.AddRange(Criterion.GetCriteriaByTopic(topic, user));
+			this.topic = topic;
 		}
 
 		#region Events
 
 		public void Rateit()
 		{
+			int totalpoints = 0;
 			foreach (Criterion criterion in Criteria)
 			{
-				criterion.Rate(1);
-			}
+				totalpoints = totalpoints + criterion.UserRating;
+				criterion.Rate();
+				topic.updateCriterionRate(criterion.Id, criterion.UserRating);
+			}		
+			topic.updateAfterRate(totalpoints);
 			AggregatorProvider.Aggregator.PublishOnCurrentThread(new RateEvent());
 		}
 

@@ -50,14 +50,14 @@ namespace Rateit.Models
         /// </summary>
         /// <param name="rating">The users rating</param>
         /// <returns></returns>
-        public bool Rate(int rating)
+        public bool Rate()
         {
             bool rated = false;
             DBConnector connection = new DBConnector();
 
             if (connection.Open())
-            {                
-                string sql = $"INSERT INTO ratingUser (user_iduser,topic_idtopic, criterion_idcriterion, points) VALUES ({UserId}, {TopicId}, {Id}, {rating}) ON DUPLICATE KEY UPDATE points = VALUES({rating});";
+            {
+                string sql = $"INSERT INTO ratingUser (user_iduser,topic_idtopic, criterion_idcriterion, points) VALUES ({UserId}, {TopicId}, {Id}, {UserRating});"; //ON DUPLICATE KEY UPDATE points = VALUES({UserRating});"; @todo errorfix
 
                 connection.getResult(sql);
 
@@ -86,7 +86,7 @@ namespace Rateit.Models
             if (connection.Open())
             {
                 List<int> criteriaIds = new List<int>();
-                string sql = $"SELECT idcriterion FROM criterion WHERE category_idcategory = {topic.Id};";
+                string sql = $"SELECT idcriterion FROM criterion WHERE category_idcategory = {topic.CategoryId};";
 
                 connection.getResult(sql);
 
