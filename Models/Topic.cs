@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rateit.Models
 {
-    public class Topic
+    public class Topic 
     {
 
         #region Properties
@@ -32,53 +32,53 @@ namespace Rateit.Models
             LoadData();
         }
 
-        /// <summary>
-        /// Returns the ratings of the Topic made from the public
-        /// </summary>
-        /// <returns></returns>
-        public List<double> GetPublicRatings()
-        {
-            List<double> ratings = new List<double>();
+        ///// <summary>
+        ///// Returns the ratings of the Topic made from the public
+        ///// </summary>
+        ///// <returns></returns>
+        //public List<double> GetPublicRatings()
+        //{
+        //    List<double> ratings = new List<double>();
 
-            foreach (Criterion criterion in this.Criteria)
-            {
-                //ratings.Add(criterion.publicRating);
-            }
+        //    foreach (Criterion criterion in this.Criteria)
+        //    {
+        //        //ratings.Add(criterion.publicRating);
+        //    }
 
-            return ratings;
-        }
+        //    return ratings;
+        //}
 
-        /// <summary>
-        /// Returns the ratings of the Topic made by the current user
-        /// </summary>
-        /// <returns></returns>
-        public List<double> GetUserRatings()
-        {
-            List<double> ratings = new List<double>();
+        ///// <summary>
+        ///// Returns the ratings of the Topic made by the current user
+        ///// </summary>
+        ///// <returns></returns>
+        //public List<double> GetUserRatings()
+        //{
+        //    List<double> ratings = new List<double>();
 
-            foreach (Criterion criterion in this.Criteria)
-            {
-                ratings.Add(criterion.UserRating);
-            }
+        //    foreach (Criterion criterion in this.Criteria)
+        //    {
+        //        ratings.Add(criterion.UserRating);
+        //    }
 
-            return ratings;
-        }
+        //    return ratings;
+        //}
 
-        /// <summary>
-        /// writes the user ratings to the Database
-        /// </summary>
-        /// <param name="userRatings">the users ratings of the Criteria</param>
-        /// <returns></returns>
-        public bool Rate(List<double> userRatings)
-        {
-            for (int i = 0; i < userRatings.Count; i++)
-            {
-              this.Criteria[i].Rate(userRatings[i]);
-            }
+        ///// <summary>
+        ///// writes the user ratings to the Database
+        ///// </summary>
+        ///// <param name="userRatings">the users ratings of the Criteria</param>
+        ///// <returns></returns>
+        //public bool Rate(List<int> userRatings)
+        //{
+        //    for (int i = 0; i < userRatings.Count; i++)
+        //    {
+        //      this.Criteria[i].Rate(userRatings[i]);
+        //    }
 
-            //TODO: return
-            return true;
-        }
+        //    //TODO: return
+        //    return true;
+        //}
 
         #region public static methods
 

@@ -12,7 +12,7 @@ namespace Rateit.ViewModels
     public class RateViewModel
     {
 
-		private BindableCollection<Criterion> _criteria;
+		private BindableCollection<Criterion> _criteria = new BindableCollection<Criterion>();
 
 		public BindableCollection<Criterion> Criteria
 		{
@@ -30,7 +30,11 @@ namespace Rateit.ViewModels
 
 		public void Rateit()
 		{
-
+			foreach (Criterion criterion in Criteria)
+			{
+				criterion.Rate(1);
+			}
+			AggregatorProvider.Aggregator.PublishOnCurrentThread(new RateEvent());
 		}
 
 		#endregion

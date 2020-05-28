@@ -8,18 +8,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
         <!-- Row 1 -->
-        <DataGrid x:Name="Topics" AutoGenerateColumns="false" Grid.Row="1" Grid.Column="1">
+        <DataGrid x:Name="Topics" AutoGenerateColumns="false" Grid.Row="0" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="auto" Binding="{Binding Name}" Header="Topic" ></DataGridTextColumn>
                 <DataGridTextColumn Width="auto" Binding="{Binding AvrgScore}" Header="Score" ></DataGridTextColumn>
