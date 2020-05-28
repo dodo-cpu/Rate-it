@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rateit.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="auto" Width="auto" WindowStartupLocation="CenterScreen">
+        Title="ShellView" Background="Red" Height="auto" Width="auto" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
