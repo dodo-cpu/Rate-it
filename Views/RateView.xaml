@@ -8,23 +8,29 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         
-        <DataGrid x:Name="Criteria" AutoGenerateColumns="false" Grid.Row="1" Grid.Column="1">
+        <DataGrid x:Name="Criteria" AutoGenerateColumns="false" Grid.Row="0" Grid.Column="0">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="auto" Binding="{Binding Name}" Header="Topic" ></DataGridTextColumn>
-                <DataGridTextColumn Width="auto" Binding="{Binding UserRating}" Header="Score" ></DataGridTextColumn>
+                <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Criterion" ></DataGridTextColumn>
+                <DataGridTemplateColumn Width="500" Header="Score">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Slider x:Name="Criteria_UserRating" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Width="200" Minimum="1" Maximum="5" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding UserRating}" />
+                                <Label HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding ElementName=Criteria_UserRating, Path=Value}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTextColumn Width="auto" Binding="{Binding UserRating}" Header="Score" ></DataGridTextColumn>-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Rateit" Grid.Column="1" Grid.Row="2" Content="Rateit!" Margin="5,0,5,0"></Button>
+        <Button x:Name="Rateit" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="0,5,0,0"></Button>
     </Grid>
 </UserControl>

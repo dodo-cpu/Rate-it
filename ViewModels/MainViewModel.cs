@@ -13,7 +13,7 @@ using Rateit.Events;
 
 namespace Rateit.ViewModels
 {
-	public class MainViewModel : Conductor<object>
+	public class MainViewModel : Conductor<object>, IHandle<RateEvent>
 	{
 
 		#region Fields
@@ -140,6 +140,11 @@ namespace Rateit.ViewModels
 		public void Logout()
 		{
 			AggregatorProvider.Aggregator.PublishOnCurrentThread(new LogoutEvent());
+		}
+
+		public void Handle(RateEvent rate)
+		{
+			ActivateItem(new OverViewModel(SelectedChildCategory.Id));
 		}
 
 		#endregion

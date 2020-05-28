@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 
 namespace Rateit.Models
 {
@@ -15,9 +16,17 @@ namespace Rateit.Models
 
         public string Name { get; private set; }
 
-        public int UserRating { get; private set; }
 
-        //public double publicRating { get; private set; }
+        private int _userRating;
+
+        public int UserRating
+        {
+            get { return _userRating; }
+            set 
+            { 
+                _userRating = value;
+            }
+        }
 
         public int UserId { get; private set; }
 
@@ -41,10 +50,29 @@ namespace Rateit.Models
         /// </summary>
         /// <param name="rating">The users rating</param>
         /// <returns></returns>
-        public bool Rate(double rating)
+        public bool Rate(int rating)
         {
-            //TODO: DB Set
-            return true;
+            bool rated = false;
+            DBConnector connection = new DBConnector();
+
+            if (connection.Open())
+            {                
+                string sql = $"INSERT INTO ratingUser (user_iduser,topic_idtopic, criterion_idcriterion, points) VALUES ({UserId}, {TopicId}, {Id}, {rating}) ON DUPLICATE KEY UPDATE points = VALUES({rating});";
+
+                connection.getResult(sql);
+
+                while (connection.Reader.Read())
+                {
+                    if (connection.Reader.GetInt16(0) == 1)
+                    {
+                        rated = true;
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return rated;
         }
 
         #region public static methods
@@ -93,15 +121,22 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT name, points FROM ratingUser LEFT JOIN criterion ON criterion_idcriterion = idcriterion WHERE user_iduser = {this.UserId} AND topic_idtopic = {this.TopicId} AND criterion_idcriterion = {this.Id};";
+                string sql = $"SELECT criterion.name, ratingUser.points FROM topic left JOIN criterion ON topic.category_idcategory = criterion.category_idcategory LEFT JOIN ratingUser ON ratingUser.topic_idtopic = topic.idtopic WHERE (ratingUser.user_iduser = {UserId} OR ratingUser.user_iduser IS NULL) AND topic.idtopic = {TopicId} AND criterion.idcriterion = {Id}; ";
 
                 connection.getResult(sql);
 
                 while (connection.Reader.Read())
                 {
-                    //TODO: Debug, GetValue ist evtl 0 indexiert
                     this.Name = connection.Reader.GetString(0);
-                    this.UserRating = connection.Reader.GetInt32(1);
+                    if (connection.Reader.IsDBNull(1))
+                    {
+                        //If the user hasnt already rated, take 3 as default
+                        this.UserRating = 3;
+                    }
+                    else
+                    {
+                        this.UserRating = connection.Reader.GetInt32(1);
+                    }
                 }
 
                 connection.Close();
