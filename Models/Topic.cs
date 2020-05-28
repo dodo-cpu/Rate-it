@@ -21,6 +21,10 @@ namespace Rateit.Models
 
         public double AvrgScore { get; private set; }
 
+        public int totalpoints { get; private set; }
+
+        public int totalrankings { get; private set; }
+
         #endregion
 
         #region public methods
@@ -113,6 +117,45 @@ namespace Rateit.Models
             }
 
             return results;
+        }
+
+        public void updateAfterRate(int points)
+        {
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
+            {
+                this.totalpoints = this.totalpoints + points;
+                this.totalrankings = this.totalrankings + 1;
+                string sql = $"UPDATE topic SET totalpoints ={this.totalpoints}, totalrankings ={this.totalrankings} WHERE idtopic = {this.Id}";
+
+                connection.getResult(sql);
+
+                connection.Close();
+            }
+        }
+
+        public void updateCriterionRate(int criterionId, int points)
+        {
+            DBConnector connection = new DBConnector();
+            if (connection.Open())
+            {
+                string sqlselect = $"SELECT points FROM ratingtopic WHERE topic_idtopic = {this.Id} AND criterion_idcriterion = {criterionId}";
+
+                connection.getResult(sqlselect);
+            
+                while (connection.Reader.Read())
+                {
+                    
+                    points = Convert.ToInt32(connection.Reader.GetValue(0)) + points;
+                  
+                }
+
+                string sqlupdate = $"UPDATE ratingtopic SET points ={points} WHERE topic_idtopic = {this.Id} AND criterion_idcriterion = {criterionId}";
+
+                connection.getResult(sqlupdate);
+
+                connection.Close();
+            }
         }
 
         //By Johann
@@ -215,7 +258,7 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT category_idcategory, name, totalpoints / totalrankings FROM topic WHERE idtopic = {this.Id};";
+                string sql = $"SELECT category_idcategory, name, totalpoints / totalrankings , totalpoints, totalrankings FROM topic WHERE idtopic = {this.Id};";
 
                 connection.getResult(sql);
 
@@ -225,6 +268,8 @@ namespace Rateit.Models
                     this.CategoryId = Convert.ToInt32(connection.Reader.GetValue(0));
                     this.Name = connection.Reader.GetValue(1).ToString();
                     this.AvrgScore = (double)connection.Reader.GetDecimal(2);
+                    this.totalpoints = Convert.ToInt32(connection.Reader.GetValue(3));
+                    this.totalpoints = Convert.ToInt32(connection.Reader.GetValue(4));
                 }
 
                 connection.Close();
