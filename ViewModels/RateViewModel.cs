@@ -47,7 +47,11 @@ namespace Rateit.ViewModels
 			}
 		}
 
-
+		/// <summary>
+		/// Constructs a RateViewModel with the Data loaded
+		/// </summary>
+		/// <param name="topic"></param>
+		/// <param name="user"></param>
 		public RateViewModel(Topic topic, User user)
 		{
 			this.user = user;
@@ -56,6 +60,9 @@ namespace Rateit.ViewModels
 			Criteria.AddRange(Criterion.GetCriteriaByTopic(topic, user));
 		}
 
+		/// <summary>
+		/// Enables and Disables the Button and Label depending on if the user already rated the topic
+		/// </summary>
 		private void CheckRated()
 		{
 			if (this.user.istopicrated(topic.Id))
@@ -74,6 +81,9 @@ namespace Rateit.ViewModels
 
 		#region Events
 
+		/// <summary>
+		/// Saves the users rating into the DB
+		/// </summary>
 		public void Rateit()
 		{
 			int totalpoints = 0;
@@ -85,7 +95,8 @@ namespace Rateit.ViewModels
 			}		
 			topic.updateAfterRate(totalpoints);
 			CheckRated();
-			AggregatorProvider.Aggregator.PublishOnCurrentThread(new RateEvent());
+			//TODO: Publish event to open overview from main view
+			//AggregatorProvider.Aggregator.PublishOnCurrentThread(new RateEvent());
 		}
 
 		#endregion

@@ -52,7 +52,6 @@ namespace Rateit.ViewModels
 			set
 			{
 				_selectedParentCategory = value;
-				//NotifyOfPropertyChange(() => SelectedParentCategory);
 				LoadChildCategories();
 				ActivateItem(new OverViewModel(SelectedParentCategory.Id));
 			}
@@ -70,7 +69,6 @@ namespace Rateit.ViewModels
 			set
 			{
 				_selectedChildCategory = value;
-				//NotifyOfPropertyChange(() => SelectedChildCategory);
 				LoadTopics();
 				ActivateItem(new OverViewModel(SelectedChildCategory.Id));
 			}
@@ -109,12 +107,18 @@ namespace Rateit.ViewModels
 
 		#region Private Methods
 
+		/// <summary>
+		/// Loads the parent categories into the BindableCollection
+		/// </summary>
 		private void LoadParentCategories()
 		{
 			ParentCategories.Clear();
 			ParentCategories.AddRange(Category.GetCategoriesByParent(null));
 		}
 
+		/// <summary>
+		/// Loads the child categories of the selected parent category into the BindableCollection
+		/// </summary>
 		private void LoadChildCategories()
 		{
 			ChildCategories.Clear();
@@ -124,6 +128,9 @@ namespace Rateit.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Loads the topics of the selected child category into the BindableCollection
+		/// </summary>
 		private void LoadTopics()
 		{
 			Topics.Clear();
@@ -137,15 +144,23 @@ namespace Rateit.ViewModels
 
 		#region Events
 
+		/// <summary>
+		/// Signals to ShellViewModel that Logout occured
+		/// </summary>
 		public void Logout()
 		{
 			AggregatorProvider.Aggregator.PublishOnCurrentThread(new LogoutEvent());
 		}
 
-		public void Handle(RateEvent rate)
-		{
-			ActivateItem(new OverViewModel(SelectedChildCategory.Id));
-		}
+		//TODO: Get the event from RateViewModel to here
+		///// <summary>
+		///// Opens the OverView after rating occured
+		///// </summary>
+		///// <param name="rate"></param>
+		//public void Handle(RateEvent rate)
+		//{
+		//	ActivateItem(new OverViewModel(SelectedChildCategory.Id));
+		//}
 
 		#endregion
 
