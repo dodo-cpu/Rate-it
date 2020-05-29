@@ -83,6 +83,7 @@ namespace Rateit.ViewModels
 
 		#region Events
 
+		//By Dorina
 		/// <summary>
 		/// Saves the users rating into the DB
 		/// </summary>

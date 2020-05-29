@@ -72,6 +72,7 @@ namespace Rateit.Models
             return results;
         }
 
+        //By Dorina
         /// <summary>
         /// add totalpoints from last user rating to topic.totalpoints
         /// </summary>
@@ -94,6 +95,7 @@ namespace Rateit.Models
             }
         }
 
+        //By Dorina
         /// <summary>
         /// add specific criterion points to ratingtopic
         /// </summary>
@@ -212,6 +214,7 @@ namespace Rateit.Models
 
         #region private methods
 
+        //By Dorina
         /// <summary>
         /// Loads the Data from the Database
         /// </summary>

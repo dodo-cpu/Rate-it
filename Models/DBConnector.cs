@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
-    //By Johann
+    //By Johann & Dorina
     class DBConnector
     {
 
@@ -40,11 +40,8 @@ namespace Rateit.Models
             set { _command = value; Command.Connection = _connection; }
         }
 
-        //public SqlDataAdapter Adapter { get; set; }
-
         public MySqlDataAdapter Adapter { get; set; }
 
-        //public SqlDataReader Reader { get; set; }
         public MySqlDataReader Reader { get; set; }
 
         public bool Connected { get; set; }
@@ -87,8 +84,9 @@ namespace Rateit.Models
             {
                 this.Connected = false;
             }
-            return true;
-            //@todo check return this.Connected;
+            //return true;
+            //@todo check 
+            return this.Connected;
         }
 
         /// <summary>
@@ -107,8 +105,9 @@ namespace Rateit.Models
             {
                 this.Connected = false;
             }
-            return true;
-            //@todo check return !this.Connected;
+            //return true;
+            //@todo check 
+            return !this.Connected;
         }
 
         /// <summary>

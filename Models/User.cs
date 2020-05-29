@@ -56,6 +56,7 @@ namespace Rateit.Models
             LoadData();
         }
 
+        // By Dorina
         /// <summary>
         /// Checks weather a topic was already rated by the User
         /// </summary>

@@ -46,6 +46,7 @@ namespace Rateit.Models
             LoadData();
         }
 
+        //By Dorina
         /// <summary>
         /// Writes a user rating into the Database
         /// </summary>
@@ -57,7 +58,7 @@ namespace Rateit.Models
 
             if (connection.Open())
             {
-                string sql = $"INSERT INTO ratingUser (user_iduser,topic_idtopic, criterion_idcriterion, points) VALUES ({UserId}, {TopicId}, {Id}, {UserRating});"; //ON DUPLICATE KEY UPDATE points = VALUES({UserRating});"; @todo errorfix
+                string sql = $"INSERT INTO ratingUser (user_iduser,topic_idtopic, criterion_idcriterion, points) VALUES ({UserId}, {TopicId}, {Id}, {UserRating});";
 
                 connection.getResult(sql);
 
@@ -121,6 +122,7 @@ namespace Rateit.Models
 
         #region private methods
 
+        //By Dorina
         /// <summary>
         /// Loads the data from the Database
         /// </summary>
