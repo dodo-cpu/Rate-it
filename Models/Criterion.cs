@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 
 namespace Rateit.Models
 {
@@ -15,9 +16,17 @@ namespace Rateit.Models
 
         public string Name { get; private set; }
 
-        public int UserRating { get; private set; }
 
-        //public double publicRating { get; private set; }
+        private int _userRating;
+
+        public int UserRating
+        {
+            get { return _userRating; }
+            set 
+            { 
+                _userRating = value;
+            }
+        }
 
         public int UserId { get; private set; }
 
@@ -39,16 +48,41 @@ namespace Rateit.Models
         /// <summary>
         /// Writes a user rating into the Database
         /// </summary>
-        /// <param name="rating">The users rating</param>
-        /// <returns></returns>
-        public bool Rate(double rating)
+        /// <returns>returns true if successful</returns>
+        public bool Rate()
         {
-            //TODO: DB Set
-            return true;
+            bool rated = false;
+            DBConnector connection = new DBConnector();
+
+            if (connection.Open())
+            {
+                string sql = $"INSERT INTO ratingUser (user_iduser,topic_idtopic, criterion_idcriterion, points) VALUES ({UserId}, {TopicId}, {Id}, {UserRating});"; //ON DUPLICATE KEY UPDATE points = VALUES({UserRating});"; @todo errorfix
+
+                connection.getResult(sql);
+
+                //if row found set rated true
+                while (connection.Reader.Read())
+                {
+                    if (connection.Reader.GetInt16(0) == 1)
+                    {
+                        rated = true;
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return rated;
         }
 
         #region public static methods
 
+        /// <summary>
+        /// Get Criterias based on topic
+        /// </summary>
+        /// <param name="topic">Object of Class Topic</param>
+        /// <param name="user">Object of Class User</param>
+        /// <returns>returns List(Criterion)</returns>
         public static List<Criterion> GetCriteriaByTopic(Topic topic, User user)
         {
             List<Criterion> results = new List<Criterion>();
@@ -58,7 +92,7 @@ namespace Rateit.Models
             if (connection.Open())
             {
                 List<int> criteriaIds = new List<int>();
-                string sql = $"SELECT idcriterion FROM criterion WHERE category_idcategory = {topic.Id};";
+                string sql = $"SELECT idcriterion FROM criterion WHERE category_idcategory = {topic.CategoryId};";
 
                 connection.getResult(sql);
 
@@ -93,17 +127,27 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT name, points FROM ratingUser LEFT JOIN criterion ON criterion_idcriterion = idcriterion WHERE user_iduser = {this.UserId} AND topic_idtopic = {this.TopicId} AND criterion_idcriterion = {this.Id};";
+                string sqlname = $"SELECT name FROM criterion WHERE idcriterion ={this.Id}";
 
-                connection.getResult(sql);
+                connection.getResult(sqlname);
 
                 while (connection.Reader.Read())
                 {
-                    //TODO: Debug, GetValue ist evtl 0 indexiert
-                    this.Name = connection.Reader.GetString(0);
-                    this.UserRating = connection.Reader.GetInt32(1);
+                    this.Name = connection.Reader.GetValue(0).ToString();
                 }
 
+                string sqluserrating = $"SELECT ratingUser.points FROM ratingUser where ratinguser.user_iduser = {this.UserId} AND ratinguser.topic_idtopic = {this.TopicId} AND ratinguser.criterion_idcriterion = {this.Id}";
+
+                connection.getResult(sqluserrating);
+
+                //default if it isnt rated by user yet
+                this.UserRating = 3;
+
+                while (connection.Reader.Read())
+                {
+                  this.UserRating = connection.Reader.GetInt32(0);
+                }
+                        
                 connection.Close();
             }
         }
