@@ -10,14 +10,12 @@ using System.Reflection.Emit;
 
 namespace Rateit.ViewModels
 {
-	public class RateViewModel
+	public class RateViewModel : Screen
 	{
 
 		private BindableCollection<Criterion> _criteria = new BindableCollection<Criterion>();
 		private Topic topic;
-		private Label _messageAlreadyRate;
-		private bool _LableVisible = false;
-		private System.Windows.Visibility _lablevis = System.Windows.Visibility.Hidden;
+		private User user;
 
 		public BindableCollection<Criterion> Criteria
 		{
@@ -25,32 +23,53 @@ namespace Rateit.ViewModels
 			set { _criteria = value; }
 		}
 
-		public Label messageAlreadyRate
+		private System.Windows.Visibility _alreadyRated;
+
+		public System.Windows.Visibility AlreadyRated
 		{
-			get { return _messageAlreadyRate; }
-			set { _messageAlreadyRate = value; }
+			get { return _alreadyRated; }
+			set 
+			{ 
+				_alreadyRated = value;
+				NotifyOfPropertyChange(() => AlreadyRated);
+			}
 		}
 
-		public System.Windows.Visibility lablevis
+		private System.Windows.Visibility _showIsRated;
+
+		public System.Windows.Visibility ShowIsRated
 		{
-			get { return _lablevis; }
-			set { _lablevis = value; }
+			get { return _showIsRated; }
+			set 
+			{ 
+				_showIsRated = value;
+				NotifyOfPropertyChange(() => ShowIsRated);
+			}
 		}
+
 
 		public RateViewModel(Topic topic, User user)
 		{
-			if (user.istopicrated(topic.Id)) {
+			this.user = user;
+			this.topic = topic;
+			CheckRated();
+			Criteria.AddRange(Criterion.GetCriteriaByTopic(topic, user));
+		}
+
+		private void CheckRated()
+		{
+			if (this.user.istopicrated(topic.Id))
+			{
 				//topic already rated by user
-				//Rateit.Enable = false;
-				_lablevis = System.Windows.Visibility.Visible;
+				AlreadyRated = System.Windows.Visibility.Hidden;
+				ShowIsRated = System.Windows.Visibility.Visible;
 			}
 			else
 			{
 				//Rateit.Enable = true;
-				//messageAlreadyRate.Hide();
+				AlreadyRated = System.Windows.Visibility.Visible;
+				ShowIsRated = System.Windows.Visibility.Hidden;
 			}
-			Criteria.AddRange(Criterion.GetCriteriaByTopic(topic, user));
-			this.topic = topic;
 		}
 
 		#region Events
@@ -65,6 +84,7 @@ namespace Rateit.ViewModels
 				topic.updateCriterionRate(criterion.Id, criterion.UserRating);
 			}		
 			topic.updateAfterRate(totalpoints);
+			CheckRated();
 			AggregatorProvider.Aggregator.PublishOnCurrentThread(new RateEvent());
 		}
 

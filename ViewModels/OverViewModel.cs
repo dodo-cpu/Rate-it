@@ -8,7 +8,7 @@ using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
-    public class OverViewModel
+    public class OverViewModel : Screen
     {
 		private BindableCollection<Topic> _topics = new BindableCollection<Topic>();
 		public BindableCollection<Topic> Topics
