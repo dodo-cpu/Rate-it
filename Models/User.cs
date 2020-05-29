@@ -51,6 +51,25 @@ namespace Rateit.Models
             LoadData();
         }
 
+        public bool istopicrated(int topicid)
+        {
+            bool israted = false;
+            DBConnector connection = new DBConnector();
+
+            if (connection.Open())
+            {
+                //Get the user with specified name and password
+                string sql = $"SELECT * FROM ratinguser WHERE user_iduser = {this._Id} AND topic_idtopic = {topicid}";
+
+                connection.getResult(sql);
+                while (connection.Reader.Read())
+                {
+                    israted = true;
+                }
+            }
+            return israted;
+        }
+
         #region public static methods
 
         /// <summary>

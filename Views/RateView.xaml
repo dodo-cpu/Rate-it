@@ -14,7 +14,7 @@
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <DataGrid x:Name="Criteria" AutoGenerateColumns="false" Grid.Row="0" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Criterion" ></DataGridTextColumn>
@@ -29,8 +29,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--<DataGridTextColumn Width="auto" Binding="{Binding UserRating}" Header="Score" ></DataGridTextColumn>-->
+
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="Rateit" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="0,5,0,0"></Button>
+        <Label x:Name="_lablevis" Visibility="{Binding Path=lablevis }" Content="Sie haben bereits abgestimmt. Hier nochmal Ihre Ergebnisse." HorizontalAlignment="Left" Margin="217,222,0,0" VerticalAlignment="Top" Width="343"/>
     </Grid>
 </UserControl>
