@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
@@ -19,10 +18,7 @@ namespace Rateit.Models
 
         #region fields
 
-        //private SqlConnection _connection;
         private MySqlConnection _connection;
-
-        //public SqlCommand _command;
 
         public MySqlCommand _command;
 
@@ -45,7 +41,7 @@ namespace Rateit.Models
 
         //public SqlDataAdapter Adapter { get; set; }
 
-        public MySqlDataAdapter Adapter {get;set;}
+        public MySqlDataAdapter Adapter { get; set; }
 
         //public SqlDataReader Reader { get; set; }
         public MySqlDataReader Reader { get; set; }
@@ -62,10 +58,7 @@ namespace Rateit.Models
         public DBConnector()
         {
             //TODO: parse text, if not working use default
-            //this.Connection = new SqlConnection(ParseCSVConnectionString());
-            //this.Connection = new SqlConnection(defaultConnectionString);
             this.Connection = new MySqlConnection(defaultConnectionString);
-            //this.Command = new SqlCommand();
         }
 
         /// <summary>
@@ -74,9 +67,7 @@ namespace Rateit.Models
         /// <param name="connectionString"></param>
         public DBConnector(string connectionString)
         {
-            //this.Connection = new SqlConnection(connectionString);
             this.Connection = new MySqlConnection(connectionString);
-            //this.Command = new SqlCommand();
         }
 
         /// <summary>
@@ -96,7 +87,7 @@ namespace Rateit.Models
                 this.Connected = false;
             }
             return true;
-           //@todo check return this.Connected;
+            //@todo check return this.Connected;
         }
 
         /// <summary>
@@ -119,9 +110,14 @@ namespace Rateit.Models
             //@todo check return !this.Connected;
         }
 
+        /// <summary>
+        /// execute sql string
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns>Returns MySqlDataReader</returns>
         public MySqlDataReader getResult(string sql)
         {
-          
+
             MySqlCommand myCommand = new MySqlCommand(sql, this.Connection);
 
             //TODO: ByJohann: We need alseo a nonQuery() execution method to write to the DB i think
@@ -132,72 +128,9 @@ namespace Rateit.Models
             return this.Reader = myCommand.ExecuteReader();
         }
 
-        #region public static methods
-
-        /// <summary>
-        /// Returns all Topics that are of the given category
-        /// </summary>
-        /// <param name="categoryId"></param>
-        /// <returns></returns>
-        /*public static List<Topic> GetTopicsByCategory(int categoryId)
-        {
-            List<Topic> topics = new List<Topic>();
-
-            //TODO: check sql string column/tabelnames 
-            string sql = $"SELECT idtopic FROM topic WHERE category_idcategory = {categoryId};";
-
-            DBConnector connection = new DBConnector();
-
-            if (connection.Open())
-            {
-                connection.Command.CommandText = sql;
-
-                while (connection.Reader.Read())
-                {
-                    topics.Add(new Topic(connection.Reader.GetInt32(0)));
-                }
-            }
-
-            return topics;
-        }
-
-        /// <summary>
-        /// Returns the categories that have the given parentId. If parentId = null it returns all categories where parentId is NULL
-        /// </summary>
-        /// <param name="parentId"></param>
-        /// <returns></returns>
-        public static List<Category> GetCategoriesByParent(int? parentId)
-        {
-            List<Category> categories = new List<Category>();
-
-            string sql;
-            //TODO: check sql string column/tabelnames 
-            if (parentId == null)
-            {
-                sql = "SELECT idcategory FROM category WHERE idParent IS NULL;";
-            }
-            else
-            {
-                sql = $"SELECT idcategory FROM category WHERE idParent = {parentId};";
-            }
-
-            DBConnector connection = new DBConnector();
-
-            if (connection.Open())
-            {
-                connection.Command.CommandText = sql;
-
-                while (connection.Reader.Read())
-                {
-                    categories.Add(new Category(connection.Reader.GetInt32(0)));
-                }
-            }
-
-            return categories;
-        }*/
-
-
         #endregion
+
+        #region public static methods
 
         #endregion
 
@@ -217,8 +150,5 @@ namespace Rateit.Models
         }
 
         #endregion
-
-  
-
     }
 }

@@ -36,61 +36,13 @@ namespace Rateit.Models
             LoadData();
         }
 
-        ///// <summary>
-        ///// Returns the ratings of the Topic made from the public
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<double> GetPublicRatings()
-        //{
-        //    List<double> ratings = new List<double>();
-
-        //    foreach (Criterion criterion in this.Criteria)
-        //    {
-        //        //ratings.Add(criterion.publicRating);
-        //    }
-
-        //    return ratings;
-        //}
-
-        ///// <summary>
-        ///// Returns the ratings of the Topic made by the current user
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<double> GetUserRatings()
-        //{
-        //    List<double> ratings = new List<double>();
-
-        //    foreach (Criterion criterion in this.Criteria)
-        //    {
-        //        ratings.Add(criterion.UserRating);
-        //    }
-
-        //    return ratings;
-        //}
-
-        ///// <summary>
-        ///// writes the user ratings to the Database
-        ///// </summary>
-        ///// <param name="userRatings">the users ratings of the Criteria</param>
-        ///// <returns></returns>
-        //public bool Rate(List<int> userRatings)
-        //{
-        //    for (int i = 0; i < userRatings.Count; i++)
-        //    {
-        //      this.Criteria[i].Rate(userRatings[i]);
-        //    }
-
-        //    //TODO: return
-        //    return true;
-        //}
-
         #region public static methods
 
         /// <summary>
         /// Returns all Topics that have the given CategoryId
         /// </summary>
         /// <param name="categoryId"></param>
-        /// <returns></returns>
+        /// <returns>List of Objects from Class Topic</returns>
         public static List<Topic> GetTopicsByCategoryId(int categoryId)
         {
             List<Topic> results = new List<Topic>();
@@ -119,13 +71,20 @@ namespace Rateit.Models
             return results;
         }
 
+        /// <summary>
+        /// add totalpoints from last user rating to topic.totalpoints
+        /// </summary>
+        /// <param name="points">total points from last user rate</param>
         public void updateAfterRate(int points)
         {
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
+                //sums points
                 this.totalpoints = this.totalpoints + points;
+                //update ranking count
                 this.totalrankings = this.totalrankings + 1;
+
                 string sql = $"UPDATE topic SET totalpoints ={this.totalpoints}, totalrankings ={this.totalrankings} WHERE idtopic = {this.Id}";
 
                 connection.getResult(sql);
@@ -134,6 +93,11 @@ namespace Rateit.Models
             }
         }
 
+        /// <summary>
+        /// add specific criterion points to ratingtopic
+        /// </summary>
+        /// <param name="criterionId">criterion ID</param>
+        /// <param name="points">points from last user rate</param>
         public void updateCriterionRate(int criterionId, int points)
         {
             DBConnector connection = new DBConnector();
@@ -145,9 +109,7 @@ namespace Rateit.Models
             
                 while (connection.Reader.Read())
                 {
-                    
                     points = Convert.ToInt32(connection.Reader.GetValue(0)) + points;
-                  
                 }
 
                 string sqlupdate = $"UPDATE ratingtopic SET points ={points} WHERE topic_idtopic = {this.Id} AND criterion_idcriterion = {criterionId}";

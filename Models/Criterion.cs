@@ -48,8 +48,7 @@ namespace Rateit.Models
         /// <summary>
         /// Writes a user rating into the Database
         /// </summary>
-        /// <param name="rating">The users rating</param>
-        /// <returns></returns>
+        /// <returns>returns true if successful</returns>
         public bool Rate()
         {
             bool rated = false;
@@ -61,6 +60,7 @@ namespace Rateit.Models
 
                 connection.getResult(sql);
 
+                //if row found set rated true
                 while (connection.Reader.Read())
                 {
                     if (connection.Reader.GetInt16(0) == 1)
@@ -77,6 +77,12 @@ namespace Rateit.Models
 
         #region public static methods
 
+        /// <summary>
+        /// Get Criterias based on topic
+        /// </summary>
+        /// <param name="topic">Object of Class Topic</param>
+        /// <param name="user">Object of Class User</param>
+        /// <returns>returns List(Criterion)</returns>
         public static List<Criterion> GetCriteriaByTopic(Topic topic, User user)
         {
             List<Criterion> results = new List<Criterion>();
