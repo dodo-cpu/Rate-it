@@ -243,7 +243,7 @@ namespace Rateit.Models
                         this.AvrgScore = 0;
                     }
                     this.totalpoints = Convert.ToInt32(connection.Reader.GetValue(3));
-                    this.totalpoints = Convert.ToInt32(connection.Reader.GetValue(4));
+                    this.totalrankings = Convert.ToInt32(connection.Reader.GetValue(4));
                 }
 
                 connection.Close();
