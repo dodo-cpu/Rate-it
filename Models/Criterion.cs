@@ -121,24 +121,27 @@ namespace Rateit.Models
             DBConnector connection = new DBConnector();
             if (connection.Open())
             {
-                string sql = $"SELECT criterion.name, ratingUser.points FROM topic left JOIN criterion ON topic.category_idcategory = criterion.category_idcategory LEFT JOIN ratingUser ON ratingUser.topic_idtopic = topic.idtopic WHERE (ratingUser.user_iduser = {UserId} OR ratingUser.user_iduser IS NULL) AND topic.idtopic = {TopicId} AND criterion.idcriterion = {Id}; ";
+                string sqlname = $"SELECT name FROM criterion WHERE idcriterion ={this.Id}";
 
-                connection.getResult(sql);
+                connection.getResult(sqlname);
 
                 while (connection.Reader.Read())
                 {
-                    this.Name = connection.Reader.GetString(0);
-                    if (connection.Reader.IsDBNull(1))
-                    {
-                        //If the user hasnt already rated, take 3 as default
-                        this.UserRating = 3;
-                    }
-                    else
-                    {
-                        this.UserRating = connection.Reader.GetInt32(1);
-                    }
+                    this.Name = connection.Reader.GetValue(0).ToString();
                 }
 
+                string sqluserrating = $"SELECT ratingUser.points FROM ratingUser where ratinguser.user_iduser = {this.UserId} AND ratinguser.topic_idtopic = {this.TopicId} AND ratinguser.criterion_idcriterion = {this.Id}";
+
+                connection.getResult(sqluserrating);
+
+                //default if it isnt rated by user yet
+                this.UserRating = 3;
+
+                while (connection.Reader.Read())
+                {
+                  this.UserRating = connection.Reader.GetInt32(0);
+                }
+                        
                 connection.Close();
             }
         }
