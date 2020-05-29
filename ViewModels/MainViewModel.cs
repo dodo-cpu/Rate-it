@@ -13,7 +13,7 @@ using Rateit.Events;
 
 namespace Rateit.ViewModels
 {
-	public class MainViewModel : Conductor<object>, IHandle<RateEvent>
+	public class MainViewModel : Conductor<object>
 	{
 
 		#region Fields

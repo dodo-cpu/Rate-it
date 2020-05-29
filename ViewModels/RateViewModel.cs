@@ -73,7 +73,6 @@ namespace Rateit.ViewModels
 			}
 			else
 			{
-				//Rateit.Enable = true;
 				AlreadyRated = System.Windows.Visibility.Visible;
 				ShowIsRated = System.Windows.Visibility.Hidden;
 			}
