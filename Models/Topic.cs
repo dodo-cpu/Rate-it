@@ -232,8 +232,16 @@ namespace Rateit.Models
                 {
                     //TODO: Debug, GetValue ist evtl 0 indexiert
                     this.CategoryId = Convert.ToInt32(connection.Reader.GetValue(0));
-                    this.Name = connection.Reader.GetValue(1).ToString();
-                    this.AvrgScore = (double)connection.Reader.GetDecimal(2);
+                    this.Name = connection.Reader.GetValue(1).ToString(); 
+                    if (!connection.Reader.IsDBNull(2))
+                    {
+
+                        this.AvrgScore = (double)connection.Reader.GetDecimal(2);
+                    }
+                    else
+                    {
+                        this.AvrgScore = 0;
+                    }
                     this.totalpoints = Convert.ToInt32(connection.Reader.GetValue(3));
                     this.totalpoints = Convert.ToInt32(connection.Reader.GetValue(4));
                 }
