@@ -32,7 +32,7 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Rateit" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="0,5,0,0"></Button>
-        <Label x:Name="_lablevis" Visibility="{Binding Path=lablevis }" Content="Sie haben bereits abgestimmt. Hier nochmal Ihre Ergebnisse." HorizontalAlignment="Left" Margin="217,222,0,0" VerticalAlignment="Top" Width="343"/>
+        <Button x:Name="Rateit" Visibility="{Binding Path=AlreadyRated}" Grid.Column="0" Grid.Row="1" Content="Rateit!" Margin="0,5,0,0"></Button>
+        <Label  Visibility="{Binding Path=ShowIsRated }" Content="Sie haben bereits abgestimmt. Hier nochmal Ihre Ergebnisse." HorizontalAlignment="Center"  VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0"/>
     </Grid>
 </UserControl>

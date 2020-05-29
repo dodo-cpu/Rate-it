@@ -12,18 +12,6 @@ namespace Rateit.ViewModels
     public class ShellViewModel : Conductor<object>, IHandle<LoginEvent>, IHandle<LogoutEvent>
     {
 
-        #region Fields
-
-
-
-		#endregion
-
-		#region Properties
-
-
-
-		#endregion
-
 		#region Public Methods
 
 		public ShellViewModel()
@@ -32,12 +20,6 @@ namespace Rateit.ViewModels
 
 			ActivateItem(new LoginViewModel());
 		}
-
-		#endregion
-
-		#region Private Methods
-
-
 
 		#endregion
 

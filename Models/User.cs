@@ -44,6 +44,10 @@ namespace Rateit.Models
 
         #region public Methods
 
+        /// <summary>
+        /// Creates a new User and Loads the corresponding data from The DB
+        /// </summary>
+        /// <param name="id">DB Id of the User</param>
         public User(int id)
         {
             this.Id = id;
@@ -51,6 +55,11 @@ namespace Rateit.Models
             LoadData();
         }
 
+        /// <summary>
+        /// Checks weather a topic was already rated by the User
+        /// </summary>
+        /// <param name="topicid">DB Id of the Topic</param>
+        /// <returns></returns>
         public bool istopicrated(int topicid)
         {
             bool israted = false;
@@ -134,7 +143,7 @@ namespace Rateit.Models
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        /// <returns>User, Null if error</returns>
+        /// <returns>User, Null if credentials incorrect or error</returns>
         public static User Login(string username, string password)
         {
             User user = null;
@@ -170,6 +179,9 @@ namespace Rateit.Models
 
         #region private methods
 
+        /// <summary>
+        /// Loads the data from the Database
+        /// </summary>
         private void LoadData()
         {
             DBConnector connection = new DBConnector();
@@ -184,7 +196,6 @@ namespace Rateit.Models
                 {
 
                     this.Name = connection.Reader.GetValue(1).ToString();
-                    //user = new User(connection.Reader.GetInt32(0));
                     this.Id = Convert.ToInt32(connection.Reader.GetValue(0));
 
                 }

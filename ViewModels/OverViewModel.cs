@@ -8,7 +8,7 @@ using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
-    public class OverViewModel
+    public class OverViewModel : Screen
     {
 		private BindableCollection<Topic> _topics = new BindableCollection<Topic>();
 		public BindableCollection<Topic> Topics
@@ -17,6 +17,10 @@ namespace Rateit.ViewModels
 			set { _topics = value; }
 		}
 
+		/// <summary>
+		/// Creates an OverView with the topics of the given category ranked by average points
+		/// </summary>
+		/// <param name="categoryId"></param>
 		public OverViewModel(int? categoryId)
 		{
 			Topics.AddRange(Topic.GetTopicsByRanking(categoryId));

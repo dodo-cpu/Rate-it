@@ -19,6 +19,7 @@ namespace Rateit.ViewModels
 
         private User _user;
         private string _name;
+        private string _password;
 
         #endregion
 
@@ -36,7 +37,6 @@ namespace Rateit.ViewModels
             set { _name = value; }
         }
 
-        private string _password;
 
         public string Password
         {
@@ -49,6 +49,9 @@ namespace Rateit.ViewModels
 
         #region public methods
 
+        /// <summary>
+        /// Logs in the User and signals to ShellViewModel that Login occured
+        /// </summary>
         public void Login()
         {
             User = User.Login(Name, Password);
@@ -62,7 +65,9 @@ namespace Rateit.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Creates a new user, logs him in and signals to ShellViewModel that Login occured
+        /// </summary>
         public void Register()
         {
             User = User.Register(Name, Password);
@@ -76,68 +81,14 @@ namespace Rateit.ViewModels
             }
         }
 
+        /// <summary>
+        /// Helper function to be able to bind to the Text of a PasswordBox
+        /// </summary>
+        /// <param name="source"></param>
         public void PasswordChanged(PasswordBox source)
         {
             Password = source.Password;
         }
-
-        #endregion
-
-        #region private methods
-
-        //private void OnLogin(string name, object password)
-        //{
-        //    PasswordBox pw = password as PasswordBox;
-        //    this.User = Models.User.Login(name, pw.Password);
-        //    if (this.User != null)
-        //    {
-        //        OnLoggedIn();
-        //    }
-        //    else
-        //    {
-        //        //TODO: Signal to the user that input was incorrect
-        //    }
-        //}
-
-        //private bool CanLogin()
-        //{
-        //    //TODO: Input check / Exceptions
-        //    return true;
-        //}
-
-        //private void OnRegister(string name, object password)
-        //{
-        //    PasswordBox pw = password as PasswordBox;
-        //    this.User = Models.User.Register(name, pw.Password);
-        //    if (this.User != null)
-        //    {
-        //        OnLoggedIn();
-        //    }
-        //    else
-        //    {
-        //        //TODO: Signal to the user that input was incorrect
-        //    }
-        //}
-
-        #endregion
-
-        #region events and delegates
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //public event LoggedInEventHandler LoggedIn;
-
-        //public delegate void LoggedInEventHandler(object source, EventArgs args);
-
-        //private void RaisePropertyChanged(string property)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        //}
-
-        //protected virtual void OnLoggedIn()
-        //{
-        //    LoggedIn?.Invoke(this, EventArgs.Empty);
-        //}
 
         #endregion
 
