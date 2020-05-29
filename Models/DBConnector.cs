@@ -7,6 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace Rateit.Models
 {
+    //By Johann
     class DBConnector
     {
 

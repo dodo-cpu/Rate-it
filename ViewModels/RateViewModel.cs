@@ -10,6 +10,7 @@ using System.Reflection.Emit;
 
 namespace Rateit.ViewModels
 {
+	//By Johann
 	public class RateViewModel : Screen
 	{
 
@@ -47,6 +48,7 @@ namespace Rateit.ViewModels
 			}
 		}
 
+		//By Johann
 		/// <summary>
 		/// Constructs a RateViewModel with the Data loaded
 		/// </summary>
@@ -60,6 +62,7 @@ namespace Rateit.ViewModels
 			Criteria.AddRange(Criterion.GetCriteriaByTopic(topic, user));
 		}
 
+		//By Johann
 		/// <summary>
 		/// Enables and Disables the Button and Label depending on if the user already rated the topic
 		/// </summary>

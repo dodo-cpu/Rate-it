@@ -7,6 +7,7 @@ using System.ComponentModel;
 
 namespace Rateit.Models
 {
+    //By Johann
     public class User
     {
 
@@ -81,6 +82,7 @@ namespace Rateit.Models
 
         #region public static methods
 
+        //By Johann
         /// <summary>
         /// Registers a new user
         /// </summary>
@@ -138,6 +140,7 @@ namespace Rateit.Models
             return user;
         }
 
+        //By Johann
         /// <summary>
         /// Logs a user in
         /// </summary>
@@ -179,6 +182,7 @@ namespace Rateit.Models
 
         #region private methods
 
+        //By Johann
         /// <summary>
         /// Loads the data from the Database
         /// </summary>

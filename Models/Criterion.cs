@@ -7,6 +7,7 @@ using Caliburn.Micro;
 
 namespace Rateit.Models
 {
+    //By Johann
     public class Criterion
     {
 
@@ -77,6 +78,7 @@ namespace Rateit.Models
 
         #region public static methods
 
+        //By Johann
         /// <summary>
         /// Get Criterias based on topic
         /// </summary>

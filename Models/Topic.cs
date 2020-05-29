@@ -38,6 +38,7 @@ namespace Rateit.Models
 
         #region public static methods
 
+        //By Johann
         /// <summary>
         /// Returns all Topics that have the given CategoryId
         /// </summary>

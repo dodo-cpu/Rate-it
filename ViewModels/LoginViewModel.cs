@@ -12,6 +12,7 @@ using Rateit.Models;
 
 namespace Rateit.ViewModels
 {
+    //By Johann
     public class LoginViewModel
     {
 
@@ -49,6 +50,7 @@ namespace Rateit.ViewModels
 
         #region public methods
 
+        //By Johann
         /// <summary>
         /// Logs in the User and signals to ShellViewModel that Login occured
         /// </summary>
@@ -65,6 +67,7 @@ namespace Rateit.ViewModels
             }
         }
 
+        //By Johann
         /// <summary>
         /// Creates a new user, logs him in and signals to ShellViewModel that Login occured
         /// </summary>
@@ -81,6 +84,7 @@ namespace Rateit.ViewModels
             }
         }
 
+        //By Johann
         /// <summary>
         /// Helper function to be able to bind to the Text of a PasswordBox
         /// </summary>

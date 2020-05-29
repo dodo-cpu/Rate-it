@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rateit.Models
 {
+    //By Johann
     public static class SecurityHelper
     {
 

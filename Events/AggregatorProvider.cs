@@ -7,6 +7,7 @@ using Caliburn.Micro;
 
 namespace Rateit.Events
 {
+    //By Johann
     static class AggregatorProvider
     {
         // The event aggregator

@@ -9,7 +9,8 @@ using Rateit.Events;
 
 namespace Rateit.ViewModels
 {
-    public class ShellViewModel : Conductor<object>, IHandle<LoginEvent>, IHandle<LogoutEvent>
+	//By Johann
+	public class ShellViewModel : Conductor<object>, IHandle<LoginEvent>, IHandle<LogoutEvent>
     {
 
 		#region Public Methods

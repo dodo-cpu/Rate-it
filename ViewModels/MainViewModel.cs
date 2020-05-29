@@ -13,6 +13,7 @@ using Rateit.Events;
 
 namespace Rateit.ViewModels
 {
+	//By Johann
 	public class MainViewModel : Conductor<object>
 	{
 
@@ -107,6 +108,7 @@ namespace Rateit.ViewModels
 
 		#region Private Methods
 
+		//By Johann
 		/// <summary>
 		/// Loads the parent categories into the BindableCollection
 		/// </summary>
@@ -116,6 +118,7 @@ namespace Rateit.ViewModels
 			ParentCategories.AddRange(Category.GetCategoriesByParent(null));
 		}
 
+		//By Johann
 		/// <summary>
 		/// Loads the child categories of the selected parent category into the BindableCollection
 		/// </summary>
@@ -128,6 +131,7 @@ namespace Rateit.ViewModels
 			}
 		}
 
+		//By Johann
 		/// <summary>
 		/// Loads the topics of the selected child category into the BindableCollection
 		/// </summary>
@@ -144,6 +148,7 @@ namespace Rateit.ViewModels
 
 		#region Events
 
+		//By Johann
 		/// <summary>
 		/// Signals to ShellViewModel that Logout occured
 		/// </summary>

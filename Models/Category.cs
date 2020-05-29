@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rateit.Models
 {
+    //By Johann
     public class Category
     {
 
@@ -46,6 +47,7 @@ namespace Rateit.Models
             this.LoadData();
         }
 
+        //By Johann
         /// <summary>
         /// Reads the data from the database
         /// </summary>
@@ -75,6 +77,7 @@ namespace Rateit.Models
             }
         }
 
+        //By Johann
         /// <summary>
         /// Returns all Categories that have the parentId, returns all parent categories if parentId = NULL
         /// </summary>

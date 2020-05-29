@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rateit.Events
 {
+    //By Johann
     public class LogoutEvent
     {
 
